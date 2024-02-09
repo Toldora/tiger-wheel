@@ -1,0 +1,105 @@
+<form class="login-form__form login-form__form--auth-with-tel" name="login">
+  <fieldset class="login-form__form-fieldset" name="fieldset">
+    <h2 class="login-form__title">
+      Você já está
+      <br />
+      cadastrado conosco
+    </h2>
+
+    {{> auth-type-radio }}
+
+    <div class="login-form__auth-inputs login-form__auth-inputs--tel">
+      <label>
+        <div class="login-form__text-input-label">
+          Endereço de número de telefone
+        </div>
+        <input
+          class="login-form__text-input"
+          name="tel"
+          placeholder="Número de telefone"
+          type="tel"
+          autocomplete="off"
+        />
+      </label>
+      <label>
+        <div class="login-form__text-input-label">Senha</div>
+        <div class="login-form__text-input-wrapper">
+          <input
+            class="login-form__text-input"
+            name="password"
+            placeholder="Senha"
+            type="password"
+            autocomplete="off"
+          />
+          <button
+            class="login-form__password-input-btn login-form__password-input-btn--pass-hidden js-password-input-btn"
+            type="button"
+            aria-label="Clique aqui para mostrar/ocultar senha"
+          >
+            {{> svg-icon class='login-form__password-btn-icon
+            login-form__password-btn-icon--off' width='20' height='20'
+            name='eye-off' }} {{> svg-icon class='login-form__password-btn-icon
+            login-form__password-btn-icon--on' width='20' height='20'
+            name='eye-on' }}
+          </button>
+        </div>
+      </label>
+    </div>
+    <div class="login-form__auth-inputs login-form__auth-inputs--email">
+      <label>
+        <div class="login-form__text-input-label">Endereço de e-mail</div>
+        <input
+          class="login-form__text-input"
+          name="email"
+          placeholder="Mail.here@gmail.com"
+          type="email"
+          autocomplete="email"
+        />
+      </label>
+      <label>
+        <div class="login-form__text-input-label">Senha</div>
+        <div class="login-form__text-input-wrapper">
+          <input
+            class="login-form__text-input"
+            name="password"
+            placeholder="Senha"
+            type="password"
+            autocomplete="off"
+          />
+          <button
+            class="login-form__password-input-btn login-form__password-input-btn--pass-hidden js-password-input-btn"
+            type="button"
+            aria-label="Clique aqui para mostrar/ocultar senha"
+          >
+            {{> svg-icon class='login-form__password-btn-icon
+            login-form__password-btn-icon--off' width='20' height='20'
+            name='eye-off' }} {{> svg-icon class='login-form__password-btn-icon
+            login-form__password-btn-icon--on' width='20' height='20'
+            name='eye-on' }}
+          </button>
+        </div>
+      </label>
+    </div>
+    <!-- <div class="login-form__email-error js-email-error"></div> -->
+    <div class="login-form__divider"></div>
+    <button
+      class="app-button app-button--disabled login-form__submit-btn js-submit-btn"
+      name="submitBtn"
+      type="submit"
+      aria-label="Conecte-se"
+    >
+      Conecte-se
+    </button>
+
+    <p class="login-form__sign-up-text">
+      <span>Voltar ao </span>
+      <button
+        class="login-form__sign-up-btn js-switch-to-sign-up-btn"
+        type="button"
+        aria-label="Vá para o registro"
+      >
+        registro
+      </button>
+    </p>
+  </fieldset>
+</form>

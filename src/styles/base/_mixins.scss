@@ -1,0 +1,70 @@
+@mixin clearfix() {
+  &::after {
+    display: block;
+    clear: both;
+    content: '';
+  }
+}
+
+@mixin aspect-ratio($ratio) {
+  @include clearfix;
+
+  position: relative;
+  display: block;
+
+  &::before {
+    width: to-rem(1);
+    height: 0;
+    margin-left: to-rem(-1);
+    content: '';
+    float: left;
+    padding-block-start: calc(100% / #{$ratio});
+  }
+}
+
+@mixin hover() {
+  @media all and (hover: hover) {
+    &:hover,
+    &:focus-visible {
+      @content;
+    }
+  }
+}
+
+@mixin mobile-hover() {
+  @media all and (hover: none) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+@mixin high-resolution-screen() {
+  @media (resolution >= 192dpi), (resolution >= 2dppx) {
+    @content;
+  }
+}
+
+@mixin bg-img-webp($path, $is-png: false) {
+  @if $is-png {
+    background-image: url('#{$path}.png');
+
+    @include high-resolution-screen {
+      background-image: url('#{$path}@2x.png');
+    }
+  } @else {
+    background-image: url('#{$path}.jpg');
+
+    @include high-resolution-screen {
+      background-image: url('#{$path}@2x.jpg');
+    }
+  }
+
+  @supports (background-image: url('#{$path}.webp')) {
+    background-image: url('#{$path}.webp');
+
+    @include high-resolution-screen {
+      background-image: url('#{$path}@2x.webp');
+    }
+  }
+}

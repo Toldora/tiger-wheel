@@ -1,0 +1,134 @@
+@use 'sass:color';
+@import '@/styles/colors';
+
+:root,
+::before,
+::after {
+  --vh: 1vh;
+
+  // Primary colors
+  --col-total-white: #{$col-total-white};
+  --col-total-white-rgb: #{$col-total-white-rgb};
+  --col-total-black: #{$col-total-black};
+  --col-total-black-rgb: #{$col-total-black-rgb};
+
+  --col-tibetan-yellow: #{$col-tibetan-yellow};
+  --col-nuclear-fallout: #{$col-nuclear-fallout};
+  --col-red: #{$col-red};
+  --col-burtuqali-orange: #{$col-burtuqali-orange};
+  --col-pantone: #{$col-pantone};
+  --col-irradiated-green: #{$col-irradiated-green};
+  --col-pcb-green: #{$col-pcb-green};
+  --col-algal-fuel: #{$col-algal-fuel};
+  --col-algal-fuel-rgb: #{$col-algal-fuel-rgb};
+  --col-gordons-green: #{$col-gordons-green};
+  --col-kuro-green: #{$col-kuro-green};
+  --col-alpine-salamander: #{$col-alpine-salamander};
+  --col-alpine-salamander-rgb: #{$col-alpine-salamander-rgb};
+  --col-rich-olive: #{$col-rich-olive};
+  --col-vermilion-cinnabar: #{$col-vermilion-cinnabar};
+  --col-radiant-silver: #{$col-radiant-silver};
+  --col-bilberry: #{$col-bilberry};
+  --col-island-palm: #{$col-island-palm};
+
+  // Z-indexes
+  --z-modal-overlay: 14;
+  --z-modal: 9;
+  --z-app-navbar: 7;
+  --z-wheel-btn: 4;
+  --z-wheel: 3;
+  --z-maskot-decor: 2;
+  --z-default: 1;
+  --z-hidden: -1;
+
+  // Text variables
+  /* stylelint-disable max-line-length */
+  --primary-font-family: 'Open Sans', -apple-system, 'BlinkMacSystemFont',
+    'Segoe UI', 'Roboto', 'Oxygen-Sans', 'Ubuntu', 'Cantarell', 'Helvetica Neue',
+    sans-serif;
+  --secondary-font-family: 'Ubuntu', -apple-system, 'BlinkMacSystemFont',
+    'Segoe UI', 'Roboto', 'Oxygen-Sans', 'Ubuntu', 'Cantarell', 'Helvetica Neue',
+    sans-serif;
+  /* stylelint-enable max-line-length */
+
+  --p-size: #{to-rem(14)};
+
+  @include respond-above(tablet) {
+    --p-size: #{to-rem(18)};
+  }
+
+  // Transitions
+  --fast-transition-duration: 0.2s;
+  --medium-transition-duration: 0.3s;
+  --slow-transition-duration: 0.4s;
+  --hover-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  --slide-transition-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+  --fade-transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  --hover-transition: var(--fast-transition-duration)
+    var(--hover-transition-timing-function);
+  --slide-transition: var(--medium-transition-duration)
+    var(--slide-transition-timing-function);
+
+  // Base
+  --container-max-width: 100%;
+  --container-side-padding: #{to-rem(20)};
+  --primary-text-color: var(--col-total-white);
+
+  @include respond-above(medium) {
+    --container-max-width: #{to-rem(1100)};
+    --container-side-padding: #{to-rem(40)};
+  }
+
+  @include respond-above(xmedium) {
+    --container-max-width: #{to-rem(1180)};
+  }
+
+  @include respond-above(large) {
+    --container-max-width: #{to-rem(1620)};
+    --container-side-padding: #{to-rem(50)};
+  }
+
+  // Common
+  --scrollbar-color: var(--primary-text-color);
+
+  // App navbar
+  @media (orientation: portrait) {
+    --app-navbar-height: #{to-rem(120)};
+  }
+
+  @media (orientation: landscape) {
+    --app-navbar-height: #{to-rem(80)};
+
+    @include respond-above(tablet) {
+      --app-navbar-height: #{clamp(to-rem(100), vh(11.4), to-rem(120))};
+    }
+  }
+
+  // App overlay
+  --app-overlay-bg: rgba(var(--col-alpine-salamander-rgb), 75%);
+
+  // Auth type radio
+  --auth-type-radio-bg-hover: rgba(var(--col-total-white-rgb), 15%);
+  --auth-type-radio-bg-checked: rgba(var(--col-total-white-rgb), 35%);
+
+  // Wheel
+  @media (orientation: portrait) {
+    --wheel-size-portrait: #{min(90vw, vh(48))};
+
+    @include respond-above(small) {
+      --wheel-size-portrait: #{min(82vw, vh(55))};
+    }
+
+    @include respond-above(tablet) {
+      --wheel-size-portrait: #{min(85vw, vh(46))};
+    }
+  }
+
+  @media (orientation: landscape) {
+    --wheel-size-landscape: #{min(46vw, vh(74))};
+
+    @include respond-above(xmedium) {
+      --wheel-size-landscape: #{min(46vw, vh(66))};
+    }
+  }
+}

@@ -1,0 +1,205 @@
+<form
+  class='sign-up-form__form sign-up-form__form--auth-with-email'
+  name='signUp'
+>
+  <fieldset class='sign-up-form__form-fieldset' name='fieldset'>
+    <h2 class='sign-up-form__title'>
+      {{#ifEquals wheelStage 1}}
+        Junte-se a nós
+      {{else}}
+        Parabéns
+      {{/ifEquals}}
+    </h2>
+
+    {{#isGreaterOrEqual wheelStage 2}}
+      <div class='sign-up-form__bonus-text-row'>
+        <p>Você ganhou bônus <span class='sign-up-form__accent-text'>4000 R$</span>
+          </p>
+        {{#isGreaterOrEqual wheelStage 3}}
+          <p>e <span class='sign-up-form__accent-text'>250 Giros Gratis</span></p>
+        {{/isGreaterOrEqual}}
+      </div>
+    {{/isGreaterOrEqual}}
+
+    {{#isGreaterOrEqual wheelStage 2}}
+      <div class='sign-up-form__bonus-img-row'>
+        <picture class='sign-up-form__bonus-img'>
+          <source
+            type='image/webp'
+            srcset='/img/bonus-1.webp 80w, /img/bonus-1@2x.webp 160w'
+            sizes='80px'
+          />
+          <source
+            type='image/png'
+            srcset='/img/bonus-1.png 80w, /img/bonus-1@2x.png 160w'
+            sizes='80px'
+          />
+          <img
+            src='/img/bonus-1.png'
+            width='80'
+            height='80'
+            alt=''
+            loading='lazy'
+          />
+        </picture>
+        {{#isGreaterOrEqual wheelStage 3}}
+          <picture class='sign-up-form__bonus-img'>
+            <source
+              type='image/webp'
+              srcset='/img/bonus-2.webp 80w, /img/bonus-2@2x.webp 160w'
+              sizes='80px'
+            />
+            <source
+              type='image/png'
+              srcset='/img/bonus-2.png 80w, /img/bonus-2@2x.png 160w'
+              sizes='80px'
+            />
+            <img
+              src='/img/bonus-2.png'
+              width='80'
+              height='80'
+              alt=''
+              loading='lazy'
+            />
+          </picture>
+        {{/isGreaterOrEqual}}
+      </div>
+    {{/isGreaterOrEqual}}
+
+    {{!-- {{> auth-type-radio }} --}}
+
+    {{!-- <div class='sign-up-form__auth-inputs sign-up-form__auth-inputs--tel'>
+      <label class="sign-up-form__input-label">
+        <div class='sign-up-form__text-input-label'>
+          Endereço de número de telefone
+        </div>
+        <input
+          class='sign-up-form__text-input'
+          name='tel'
+          required
+          placeholder='Número de telefone'
+          type='tel'
+          autocomplete='tel'
+        />
+      </label>
+    </div> --}}
+    <div class='sign-up-form__auth-inputs sign-up-form__auth-inputs--email'>
+      <label class="sign-up-form__input-label">
+        <div class='sign-up-form__text-input-label'>Endereço de e-mail</div>
+        <input
+          class='sign-up-form__text-input'
+          name='email'
+          required
+          placeholder='seu.email.aqui@gmail.com'
+          type='email'
+          autocomplete='email'
+        />
+      </label>
+    </div>
+    <div class='sign-up-form__auth-error js-auth-error'></div>
+    <label class="sign-up-form__input-label">
+      <div class='sign-up-form__text-input-label'>Senha</div>
+      <div class='sign-up-form__text-input-wrapper'>
+        <input
+          class='sign-up-form__text-input'
+          name='password'
+          required
+          placeholder='******'
+          type='password'
+          minlength='6'
+          autocomplete='off'
+        />
+        <button
+          class='sign-up-form__password-input-btn sign-up-form__password-input-btn--pass-hidden js-password-input-btn'
+          type='button'
+          aria-label='Clique aqui para mostrar/ocultar senha'
+        >
+          {{> svg-icon
+            class='sign-up-form__password-btn-icon sign-up-form__password-btn-icon--off'
+            width='20'
+            height='20'
+            name='eye-off'
+          }}
+          {{> svg-icon
+            class='sign-up-form__password-btn-icon sign-up-form__password-btn-icon--on'
+            width='20'
+            height='20'
+            name='eye-on'
+          }}
+        </button>
+      </div>
+    </label>
+    <div class='sign-up-form__country-wrapper'>
+      <div>
+        <span>País</span>
+        <div class='sign-up-form__input-stub'>
+          {{> svg-icon class='sign-up-form__country-img' width="24" height="20" name='brazil-flag' }}
+
+          <span>Brasil</span>
+        </div>
+      </div>
+      <div>
+        <span>Moeda</span>
+        <div class='sign-up-form__input-stub'>BRL</div>
+      </div>
+    </div>
+    <label class='sign-up-form__agree-wrapper'>
+      <input
+        class='sign-up-form__check-input js-agree-checkbox'
+        checked
+        type='checkbox'
+        required
+        name='agreeCheck'
+      />
+      <span class='sign-up-form__check-box'></span>
+      <div>
+        Eu concordo com
+        <span class='sign-up-form__accent-text'> termos e condições </span>
+        e
+        <span class='sign-up-form__accent-text'> privacidade </span>
+        da conta
+      </div>
+    </label>
+    <div class='sign-up-form__divider'></div>
+    <button
+      class='app-button app-button--disabled sign-up-form__submit-btn js-submit-btn'
+      name='submitBtn'
+      type='submit'
+      aria-label='Inscrever-se'
+    >
+      <div class="sign-up-form__submit-loader">
+        {{> svg-icon
+          class='sign-up-form__submit-loader-icon sign-up-form__submit-loader-icon--first'
+          width='24'
+          height='24'
+          name='loader-part-1'
+        }}
+        {{> svg-icon
+          class='sign-up-form__submit-loader-icon sign-up-form__submit-loader-icon--second'
+          width='24'
+          height='24'
+          name='loader-part-2'
+        }}
+        <span>Carregando</span>
+      </div>
+      <div class="sign-up-form__submit-btn-content">
+        {{#ifEquals wheelStage 1}}
+          Inscrever-se
+        {{else}}
+          Receba bônus
+        {{/ifEquals}}
+      </div>
+    </button>
+
+    {{! <p class='sign-up-form__login-text'>
+      <span>Já é um membro? </span>
+      <button
+        class='sign-up-form__login-btn js-switch-to-login-btn'
+        type='button'
+        aria-label='Vá para login'
+      >
+        Entrar
+      </button>
+    </p> }}
+  </fieldset>
+</form>

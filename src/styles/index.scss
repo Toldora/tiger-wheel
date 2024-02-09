@@ -1,0 +1,18 @@
+@import './base/reset';
+@import './base/variables';
+@import './base/helpers';
+@import './base/app';
+
+// Components
+@import './components/scrollbar';
+@import './components/svg-icon';
+@import './components/main-content';
+@import './components/app-button';
+@import './components/app-navbar';
+@import './components/app-modal';
+// @import './components/auth-type-radio';
+@import './components/sign-up-form';
+
+// @import './components/login-form';
+@import './components/wheel';
+@import './components/bonuses-section';

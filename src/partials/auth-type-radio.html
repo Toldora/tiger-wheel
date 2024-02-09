@@ -1,0 +1,29 @@
+<div class="auth-type-radio">
+  <label class="auth-type-radio__radio-label">
+    <input
+      class="auth-type-radio__radio-input"
+      type="radio"
+      name="authType"
+      value="tel"
+      checked
+      required
+    />
+    <div class="auth-type-radio__radio-content">Via telefone</div>
+    <div class="auth-type-radio__radio-content-icon">
+      {{> svg-icon width="17" height="16" name='telephone' }}
+    </div>
+  </label>
+  <label class="auth-type-radio__radio-label">
+    <input
+      class="auth-type-radio__radio-input"
+      type="radio"
+      name="authType"
+      value="email"
+      required
+    />
+    <div class="auth-type-radio__radio-content">Via e-mail</div>
+    <div class="auth-type-radio__radio-content-icon">
+      {{> svg-icon width="17" height="16" name='email' }}
+    </div>
+  </label>
+</div>

@@ -1,0 +1,223 @@
+%full-width {
+  width: 100%;
+  height: 100%;
+}
+
+@mixin bg-image($path, $is-centered: false) {
+  @if $is-centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  @extend %full-width;
+
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+
+  @include bg-img-webp($path, true);
+}
+
+.wheel {
+  --btn-size: 25%;
+
+  position: relative;
+  z-index: var(--z-wheel);
+  aspect-ratio: 1;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: default;
+
+  @media (orientation: landscape) {
+    position: absolute;
+    top: calc(45% - var(--wheel-size-landscape) / 2);
+    left: calc(50% - var(--wheel-size-landscape) / 2);
+    height: 0;
+    flex-grow: 1;
+    max-width: var(--wheel-size-landscape);
+    padding-bottom: var(--wheel-size-landscape);
+  }
+
+  @media (orientation: portrait) {
+    width: 100%;
+    max-width: var(--wheel-size-portrait);
+  }
+
+  @include hover {
+    cursor: pointer;
+
+    .wheel__btn,
+    .wheel__btn-border {
+      transform: translate(-50%, -50%) scale(1.15);
+    }
+
+    .wheel-stage-3 & {
+      cursor: default;
+
+      .wheel__btn,
+      .wheel__btn-border {
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+  }
+}
+
+.wheel__wrapper {
+  @include bg-image('/img/wheel/wrapper', true);
+}
+
+.wheel__main {
+  @include bg-image('/img/wheel/main', true);
+
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+
+  .wheel-stage-1 &,
+  .wheel-stage-2 & {
+    animation-name: wheel-shake-1;
+  }
+
+  .wheel-stage-3 & {
+    transform: translate(-50%, -50%) rotate(-180deg);
+  }
+
+  .wheel--spinning-1 & {
+    animation-name: spin-to-stage-two;
+    animation-duration: 4s;
+    animation-iteration-count: 1;
+  }
+
+  .wheel--spinning-2 & {
+    animation-name: spin-to-stage-three;
+    animation-duration: 4s;
+    animation-iteration-count: 1;
+    transform: rotate(-25deg);
+  }
+}
+
+.wheel__backdrop {
+  @include bg-image('/img/wheel/backdrop', true);
+
+  background-size: 81%;
+  background-position: center 56%;
+}
+
+.wheel__winner-frame {
+  width: 34%;
+  height: 44%;
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  filter: drop-shadow(
+    to-rem(5) -#{to-rem(2)} to-rem(4) rgba(var(--col-total-black-rgb), 55%)
+  );
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+
+  @include bg-img-webp('/img/wheel/winner-frame', true);
+}
+
+.wheel__pointer {
+  width: 12%;
+  height: 12%;
+  position: absolute;
+  top: 2.5%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+
+  @include bg-img-webp('/img/wheel/pointer', true);
+}
+
+.wheel__btn-border {
+  width: calc(var(--btn-size) + 5.5%);
+  height: calc(var(--btn-size) + 5.5%);
+
+  @include bg-image('/img/wheel/button-border', true);
+
+  transform-origin: center;
+  transition: transform var(--hover-transition);
+  mix-blend-mode: multiply;
+}
+
+.wheel__btn {
+  width: var(--btn-size);
+  height: var(--btn-size);
+
+  @include bg-image('/img/wheel/button', true);
+
+  transform-origin: center;
+  transition: transform var(--hover-transition);
+}
+
+@keyframes wheel-shake-1 {
+  0% {
+    transform: translate(-50%, -50%) rotate(4deg);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) rotate(-4deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(4deg);
+  }
+}
+
+@keyframes wheel-shake-2 {
+  0% {
+    transform: translate(-50%, -50%) rotate(-176deg);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) rotate(-184deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(-176deg);
+  }
+}
+
+@keyframes spin-to-stage-two {
+  0% {
+    transform: translate(-50%, -50%) rotate(4deg);
+  }
+
+  70% {
+    transform: translate(-50%, -50%) rotate(1092deg);
+  }
+
+  80% {
+    transform: translate(-50%, -50%) rotate(1076deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(1084deg);
+  }
+}
+
+@keyframes spin-to-stage-three {
+  0% {
+    transform: translate(-50%, -50%) rotate(1084deg);
+  }
+
+  70% {
+    transform: translate(-50%, -50%) rotate(2358deg);
+  }
+
+  80% {
+    transform: translate(-50%, -50%) rotate(2336deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(2340deg);
+  }
+}

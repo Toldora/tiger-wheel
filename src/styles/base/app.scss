@@ -1,0 +1,146 @@
+html {
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--primary-font-family);
+  word-spacing: to-rem(1);
+  text-rendering: optimizeLegibility;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -ms-text-size-adjust: 100%;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  /* stylelint-disable-next-line declaration-no-important */
+  -webkit-overflow-scrolling: touch !important;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+
+body {
+  width: 100%;
+  max-width: 100%;
+  background-color: var(--col-pcb-green);
+  color: var(--primary-text-color);
+}
+
+body,
+button {
+  font-size: var(--p-size, #{to-rem(14)});
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+button {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  font-family: var(--primary-font-family);
+  color: inherit;
+  outline: transparent;
+  cursor: pointer;
+  user-select: none;
+
+  /* Corrects font smoothing for webkit */
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+
+  /* Corrects inability to style clickable `input` types in iOS */
+  -webkit-appearance: none;
+
+  /* Remove excess padding and border in Firefox 4+ */
+  &::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
+
+  &:focus {
+    outline: transparent;
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: to-rem(8) to-rem(16);
+  background: no-repeat;
+  border-radius: to-rem(8);
+  box-shadow: none;
+
+  &:focus {
+    outline: transparent;
+  }
+}
+
+p {
+  margin: 0;
+  word-wrap: break-word;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: inherit;
+  color: var(--primary-title-color);
+  line-height: 1.2;
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+b,
+strong {
+  font-weight: 700;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+a {
+  display: inline-flex;
+}
+
+::placeholder {
+  /* stylelint-disable-next-line declaration-no-important */
+  color: var(--col-radiant-silver) !important;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  padding-right: var(--container-side-padding);
+  padding-left: var(--container-side-padding);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.app {
+  width: 100%;
+  height: vh(100);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center bottom;
+  overflow: hidden;
+
+  @include bg-img-webp('/img/bg/ver');
+
+  @media (orientation: landscape) {
+    @include bg-img-webp('/img/bg/hor');
+  }
+
+  @include respond-above(tablet) {
+    @include bg-img-webp('/img/bg/hor');
+  }
+}

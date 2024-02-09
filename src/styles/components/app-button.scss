@@ -1,0 +1,29 @@
+.app-button {
+  min-height: to-rem(40);
+  padding: 0 to-rem(24);
+  background-color: var(--col-tibetan-yellow);
+  color: var(--col-total-black);
+  box-shadow: none;
+  border-radius: to-rem(5);
+  font-size: to-rem(14);
+  line-height: 1.3;
+  font-weight: 700;
+  transition: background-color var(--hover-transition);
+
+  @include respond-above(medium) {
+    padding: 0 to-rem(30);
+    font-size: to-rem(18);
+  }
+
+  &--disabled,
+  &:disabled {
+    background-color: var(--col-nuclear-fallout);
+    cursor: default;
+  }
+
+  @include hover {
+    &:not(:disabled):not(.app-button--disabled) {
+      background-color: var(--col-total-black);
+    }
+  }
+}
