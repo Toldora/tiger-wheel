@@ -5,7 +5,6 @@ import { openSignUpModal } from '@/js/sign-up';
 const wheelRef = document.querySelector('.js-wheel');
 const spinWheelBtnRef = document.querySelector('.js-spin-wheel-btn');
 const bonusesSectionRef = document.querySelector('.js-bonuses-section');
-const bonusTriesRef = document.querySelector('.js-bonus-tries');
 const bodyRef = document.body;
 const wheelMainPartRef = wheelRef.querySelector('.js-wheel-main-part');
 const wheelMainPartStyles = getComputedStyle(wheelMainPartRef);
@@ -41,7 +40,6 @@ const onClickWheel = () => {
         bodyRef.classList.remove('wheel-stage-1');
         wheelRef.classList.remove('wheel--spinning-1');
         bonusesSectionRef.classList.add('bonuses-section--visible-first-bonus');
-        bonusTriesRef.textContent = '1';
         globalState.wheelStage += 1;
 
         break;
@@ -53,7 +51,6 @@ const onClickWheel = () => {
         bonusesSectionRef.classList.add(
           'bonuses-section--visible-second-bonus',
         );
-        bonusTriesRef.textContent = '0';
         globalState.wheelStage += 1;
 
         setToLS('isLastStage', globalState.isLastStage);
@@ -79,7 +76,6 @@ export const setWheelLastStage = () => {
     'bonuses-section--visible-first-bonus',
     'bonuses-section--visible-second-bonus',
   );
-  bonusTriesRef.textContent = '0';
   globalState.wheelStage = 3;
 };
 

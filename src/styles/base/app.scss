@@ -130,17 +130,51 @@ a {
   width: 100%;
   height: vh(100);
   background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center bottom;
+  background-size: auto to-rem(40), cover;
+  background-position: center to-rem(20), center;
   overflow: hidden;
 
-  @include bg-img-webp('/img/bg/ver');
+  @media (orientation: portrait) {
+    background-image: url('/img/mayan-logo.png'), url('/img/bg/ver.jpg');
 
-  @media (orientation: landscape) {
-    @include bg-img-webp('/img/bg/hor');
+    @include high-resolution-screen {
+      background-image: url('/img/mayan-logo@2x.png'), url('/img/bg/ver@2x.jpg');
+    }
+
+    @supports (background-image: url('/img/mayan-logo.webp')) {
+      background-image: url('/img/mayan-logo.webp'), url('/img/bg/ver.webp');
+
+      @include high-resolution-screen {
+        background-image: url('/img/mayan-logo@2x.webp'),
+          url('/img/bg/ver@2x.webp');
+      }
+    }
+
+    @include respond-above(tablet) {
+      background-size: auto to-rem(60), cover;
+      background-position: center to-rem(30), center;
+    }
   }
 
-  @include respond-above(tablet) {
-    @include bg-img-webp('/img/bg/hor');
+  @media (orientation: landscape) {
+    background-image: url('/img/mayan-logo.png'), url('/img/bg/hor.jpg');
+
+    @include high-resolution-screen {
+      background-image: url('/img/mayan-logo@2x.png'), url('/img/bg/hor@2x.jpg');
+    }
+
+    @supports (background-image: url('/img/mayan-logo.webp')) {
+      background-image: url('/img/mayan-logo.webp'), url('/img/bg/hor.webp');
+
+      @include high-resolution-screen {
+        background-image: url('/img/mayan-logo@2x.webp'),
+          url('/img/bg/hor@2x.webp');
+      }
+    }
+
+    @include respond-above(medium) {
+      background-size: auto to-rem(60), cover;
+      background-position: center to-rem(30), center;
+    }
   }
 }

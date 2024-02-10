@@ -12,8 +12,6 @@ import '@/js/terms-and-privacy';
 import useViewportSizes from '@/js/use-viewport-sizes';
 import { getFromLS } from '@/js/local-storage';
 
-const signUpBtnRef = document.querySelector('.js-sign-up-btn');
-
 useViewportSizes();
 
 const isAlreadyRegistered = getFromLS('isAlreadyRegistered');
@@ -33,5 +31,3 @@ if (isLastStage) {
   setWheelLastStage();
   openSignUpModal({ isBlocked: true });
 }
-
-signUpBtnRef.addEventListener('click', openSignUpModal);

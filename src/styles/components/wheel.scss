@@ -65,10 +65,6 @@
   }
 }
 
-.wheel__wrapper {
-  @include bg-image('/img/wheel/wrapper', true);
-}
-
 .wheel__main {
   @include bg-image('/img/wheel/main', true);
 
@@ -99,28 +95,15 @@
   }
 }
 
-.wheel__backdrop {
-  @include bg-image('/img/wheel/backdrop', true);
+// .wheel__backdrop {
+//   @include bg-image('/img/wheel/backdrop', true);
 
-  background-size: 81%;
-  background-position: center 56%;
-}
+//   background-size: 81%;
+//   background-position: center 56%;
+// }
 
-.wheel__winner-frame {
-  width: 34%;
-  height: 44%;
-  position: absolute;
-  top: 6%;
-  left: 50%;
-  transform: translateX(-50%);
-  filter: drop-shadow(
-    to-rem(5) -#{to-rem(2)} to-rem(4) rgba(var(--col-total-black-rgb), 55%)
-  );
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-
-  @include bg-img-webp('/img/wheel/winner-frame', true);
+.wheel__frame {
+  @include bg-image('/img/wheel/frame', true);
 }
 
 .wheel__pointer {
@@ -135,17 +118,6 @@
   background-position: center;
 
   @include bg-img-webp('/img/wheel/pointer', true);
-}
-
-.wheel__btn-border {
-  width: calc(var(--btn-size) + 5.5%);
-  height: calc(var(--btn-size) + 5.5%);
-
-  @include bg-image('/img/wheel/button-border', true);
-
-  transform-origin: center;
-  transition: transform var(--hover-transition);
-  mix-blend-mode: multiply;
 }
 
 .wheel__btn {

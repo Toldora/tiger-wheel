@@ -13,6 +13,7 @@
   --col-total-black-rgb: #{$col-total-black-rgb};
 
   --col-tibetan-yellow: #{$col-tibetan-yellow};
+  --col-tibetan-yellow-rgb: #{$col-tibetan-yellow-rgb};
   --col-nuclear-fallout: #{$col-nuclear-fallout};
   --col-red: #{$col-red};
   --col-burtuqali-orange: #{$col-burtuqali-orange};
@@ -34,10 +35,9 @@
   // Z-indexes
   --z-modal-overlay: 14;
   --z-modal: 9;
-  --z-app-navbar: 7;
   --z-wheel-btn: 4;
   --z-wheel: 3;
-  --z-maskot-decor: 2;
+  --z-tiger-decor: 2;
   --z-default: 1;
   --z-hidden: -1;
 
@@ -90,19 +90,6 @@
 
   // Common
   --scrollbar-color: var(--primary-text-color);
-
-  // App navbar
-  @media (orientation: portrait) {
-    --app-navbar-height: #{to-rem(120)};
-  }
-
-  @media (orientation: landscape) {
-    --app-navbar-height: #{to-rem(80)};
-
-    @include respond-above(tablet) {
-      --app-navbar-height: #{clamp(to-rem(100), vh(11.4), to-rem(120))};
-    }
-  }
 
   // App overlay
   --app-overlay-bg: rgba(var(--col-alpine-salamander-rgb), 75%);
