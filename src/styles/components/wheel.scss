@@ -21,14 +21,14 @@
 }
 
 .wheel {
-  --btn-size: 25%;
+  --btn-size: 22%;
 
   position: relative;
   z-index: var(--z-wheel);
   aspect-ratio: 1;
   flex-shrink: 0;
   border-radius: 50%;
-  overflow: hidden;
+  overflow: visible;
   cursor: default;
 
   @media (orientation: landscape) {
@@ -49,16 +49,14 @@
   @include hover {
     cursor: pointer;
 
-    .wheel__btn,
-    .wheel__btn-border {
-      transform: translate(-50%, -50%) scale(1.15);
+    .wheel__btn {
+      transform: translate(-50%, -50%) scale(1.1);
     }
 
     .wheel-stage-3 & {
       cursor: default;
 
-      .wheel__btn,
-      .wheel__btn-border {
+      .wheel__btn {
         transform: translate(-50%, -50%) scale(1);
       }
     }
@@ -95,22 +93,20 @@
   }
 }
 
-// .wheel__backdrop {
-//   @include bg-image('/img/wheel/backdrop', true);
-
-//   background-size: 81%;
-//   background-position: center 56%;
-// }
-
 .wheel__frame {
   @include bg-image('/img/wheel/frame', true);
+
+  background-size: 117%;
+  background-position: 58% 36%;
+  transform: translate(-53%, -50%);
 }
 
 .wheel__pointer {
-  width: 12%;
-  height: 12%;
+  width: auto;
+  height: 18%;
+  aspect-ratio: 0.685;
   position: absolute;
-  top: 2.5%;
+  top: -2%;
   left: 50%;
   transform: translateX(-50%);
   background-repeat: no-repeat;
@@ -121,8 +117,9 @@
 }
 
 .wheel__btn {
-  width: var(--btn-size);
+  width: auto;
   height: var(--btn-size);
+  aspect-ratio: 1.69;
 
   @include bg-image('/img/wheel/button', true);
 
