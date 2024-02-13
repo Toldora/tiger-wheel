@@ -124,16 +124,12 @@
   margin-top: to-rem(8);
   padding: to-rem(10) calc(to-rem(16) + var(--hide-pass-btn-width, to-rem(0)))
     to-rem(10) to-rem(16);
-  background-color: var(--col-gordons-green);
+  background-color: var(--col-black-chestnut-oak);
   border: none;
   border-radius: to-rem(12);
   box-shadow: none;
   color: inherit;
   font-size: to-rem(14);
-
-  @include respond-above(small) {
-    background-color: var(--col-rich-olive);
-  }
 }
 
 .sign-up-form__auth-error {

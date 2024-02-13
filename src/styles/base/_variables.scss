@@ -15,22 +15,15 @@
   --col-tibetan-yellow: #{$col-tibetan-yellow};
   --col-tibetan-yellow-rgb: #{$col-tibetan-yellow-rgb};
   --col-nuclear-fallout: #{$col-nuclear-fallout};
-  --col-red: #{$col-red};
-  --col-burtuqali-orange: #{$col-burtuqali-orange};
-  --col-pantone: #{$col-pantone};
-  --col-irradiated-green: #{$col-irradiated-green};
-  --col-pcb-green: #{$col-pcb-green};
-  --col-algal-fuel: #{$col-algal-fuel};
-  --col-algal-fuel-rgb: #{$col-algal-fuel-rgb};
   --col-gordons-green: #{$col-gordons-green};
-  --col-kuro-green: #{$col-kuro-green};
-  --col-alpine-salamander: #{$col-alpine-salamander};
-  --col-alpine-salamander-rgb: #{$col-alpine-salamander-rgb};
   --col-rich-olive: #{$col-rich-olive};
   --col-vermilion-cinnabar: #{$col-vermilion-cinnabar};
   --col-radiant-silver: #{$col-radiant-silver};
   --col-bilberry: #{$col-bilberry};
   --col-island-palm: #{$col-island-palm};
+  --col-dark-tone-ink: #{$col-dark-tone-ink};
+  --col-dark-tone-ink-rgb: #{$col-dark-tone-ink-rgb};
+  --col-black-chestnut-oak: #{$col-black-chestnut-oak};
 
   // Z-indexes
   --z-modal-overlay: 14;
@@ -94,7 +87,7 @@
   --scrollbar-color: var(--primary-text-color);
 
   // App overlay
-  --app-overlay-bg: rgba(var(--col-alpine-salamander-rgb), 75%);
+  --app-overlay-bg: rgba(var(--col-dark-tone-ink-rgb), 45%);
 
   // Auth type radio
   --auth-type-radio-bg-hover: rgba(var(--col-total-white-rgb), 15%);

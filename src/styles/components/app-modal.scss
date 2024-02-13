@@ -35,7 +35,7 @@
   z-index: var(--z-modal);
   width: 100%;
   height: 100%;
-  background-color: var(--col-kuro-green);
+  background-color: var(--col-dark-tone-ink);
   color: var(--col-total-white);
   font-family: var(--secondary-font-family);
   font-size: to-rem(14);
@@ -48,7 +48,6 @@
     max-width: to-rem(400);
     height: auto;
     max-height: vh(95);
-    background-color: var(--col-gordons-green);
     border-radius: to-rem(16);
     filter: drop-shadow(0 0 to-rem(12) rgba(var(--col-total-black-rgb), 24%));
   }
@@ -67,7 +66,7 @@
     height: var(--close-modal-btn-size-small);
     width: var(--close-modal-btn-size-small);
     border-radius: to-rem(8);
-    background-color: var(--col-gordons-green);
+    background-color: var(--col-black-chestnut-oak);
     color: var(--col-total-white);
   }
 
