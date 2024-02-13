@@ -35,9 +35,11 @@
   // Z-indexes
   --z-modal-overlay: 14;
   --z-modal: 9;
-  --z-wheel-btn: 4;
+  --z-wheel-btn: 5;
+  --z-common-decor: 4;
   --z-wheel: 3;
-  --z-tiger-decor: 2;
+  --z-bottom-decor: 2;
+  --z-tiger-decor: 1;
   --z-default: 1;
   --z-hidden: -1;
 
@@ -100,22 +102,22 @@
 
   // Wheel
   @media (orientation: portrait) {
-    --wheel-size-portrait: #{min(90vw, vh(48))};
-
-    @include respond-above(small) {
-      --wheel-size-portrait: #{min(82vw, vh(55))};
-    }
+    --wheel-size-portrait: #{min(90vw, vh(55))};
 
     @include respond-above(tablet) {
-      --wheel-size-portrait: #{min(85vw, vh(46))};
+      --wheel-size-portrait: #{min(85vw, vh(62))};
     }
   }
 
   @media (orientation: landscape) {
-    --wheel-size-landscape: #{min(46vw, vh(74))};
+    --wheel-size-landscape: #{min(52vw, vh(66))};
+
+    @include respond-above(medium) {
+      --wheel-size-landscape: #{min(52vw, vh(63))};
+    }
 
     @include respond-above(xmedium) {
-      --wheel-size-landscape: #{min(46vw, vh(66))};
+      --wheel-size-landscape: #{min(46vw, vh(63))};
     }
   }
 }

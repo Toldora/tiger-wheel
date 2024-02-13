@@ -32,11 +32,7 @@
   cursor: default;
 
   @media (orientation: landscape) {
-    position: absolute;
-    top: calc(45% - var(--wheel-size-landscape) / 2);
-    left: calc(50% - var(--wheel-size-landscape) / 2);
     height: 0;
-    flex-grow: 1;
     max-width: var(--wheel-size-landscape);
     padding-bottom: var(--wheel-size-landscape);
   }

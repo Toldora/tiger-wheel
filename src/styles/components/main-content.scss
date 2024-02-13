@@ -16,10 +16,11 @@
   justify-content: center;
 
   @media (orientation: landscape) {
-    padding-top: to-rem(40);
+    padding-top: to-rem(70);
+    padding-bottom: vh(11);
 
     @include respond-above(medium) {
-      padding-top: to-rem(60);
+      padding-top: to-rem(100);
     }
   }
 }
@@ -37,6 +38,7 @@
     to-rem(400)
   );
   flex-shrink: 0;
+  transform: translateY(-30%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,16 +57,20 @@
   }
 
   @media (orientation: landscape) {
+    max-width: min(var(--wheel-size-landscape) * 0.7, to-rem(500));
+
     @include respond-above(medium) {
       height: vh(10);
-      font-size: min(vh(5), to-rem(37));
+      font-size: min(vh(7), to-rem(52));
     }
   }
 
   @media (orientation: portrait) {
+    max-width: calc(var(--wheel-size-portrait) * 0.85);
+
     @include respond-above(tablet) {
-      height: to-rem(80);
-      font-size: to-rem(44);
+      height: vh(6);
+      font-size: min(vh(5), to-rem(44));
     }
   }
 
@@ -92,7 +98,7 @@
       box-shadow: 0 to-rem(16) to-rem(46) 0
         rgba(var(--col-tibetan-yellow-rgb), 70%);
       cursor: pointer;
-      transform: scale(1.1);
+      transform: translateY(-30%) scale(1.1);
     }
   }
 }
@@ -103,27 +109,87 @@
   );
 }
 
-.main__tiger-decor {
-  position: relative;
-  z-index: var(--z-tiger-decor);
+.main__bottom-decor {
+  width: auto;
+  aspect-ratio: 4.95;
+  position: absolute;
+  z-index: var(--z-bottom-decor);
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   user-select: none;
 
+  @include bg-image('/img/decor/bottom-decor');
+
   @media (orientation: portrait) {
-    width: max(vh(30), to-rem(217));
-    margin-top: auto;
-    transform: translateY(min(vh(3) * -1, -20%));
+    height: vh(18.5);
   }
 
   @media (orientation: landscape) {
-    position: absolute;
-    top: min(30% + var(--wheel-size-landscape) / 2, 62%);
-    left: calc(50% + var(--wheel-size-landscape) / 2);
-    transform: translate(-10%, -50%);
-    width: 30vw;
-    max-width: var(--wheel-size-landscape);
+    height: vh(23.4);
+  }
+}
 
-    @include respond-above(xmedium) {
-      transform: translate(0, -50%);
-    }
+.main__tiger-decor {
+  --aspect-ratio: 0.843;
+
+  position: absolute;
+  z-index: var(--z-tiger-decor);
+  aspect-ratio: var(--aspect-ratio);
+  user-select: none;
+
+  @include bg-image('/img/decor/tiger');
+
+  @media (orientation: portrait) {
+    right: 10%;
+    bottom: 0;
+    width: min(76vw, vh(64) * var(--aspect-ratio));
+    transform: translateX(50%);
+  }
+
+  @media (orientation: landscape) {
+    left: calc(50% + var(--wheel-size-landscape) / 2);
+    bottom: 5%;
+    width: min(35vw, vh(72) * var(--aspect-ratio));
+    transform: translateX(-20%);
+  }
+}
+
+.main__jewelry-decor {
+  --aspect-ratio: 1;
+
+  position: absolute;
+  z-index: var(--z-common-decor);
+  top: 50%;
+  aspect-ratio: var(--aspect-ratio);
+
+  @include bg-image('/img/decor/jewelry-decor');
+
+  @media (orientation: portrait) {
+    left: calc(50% - var(--wheel-size-portrait) / 3);
+    width: min(24vw, var(--vh, 1vh) * 13 * var(--aspect-ratio));
+    transform: translate(-85%, -100%);
+  }
+
+  @media (orientation: landscape) {
+    left: calc(50% - var(--wheel-size-landscape) / 2);
+    width: min(13.5vw, var(--vh, 1vh) * 24 * var(--aspect-ratio));
+    transform: translate(-53%, -75%);
+  }
+}
+
+.main__orange-decor {
+  @media (orientation: landscape) {
+    --aspect-ratio: 1;
+
+    position: absolute;
+    z-index: var(--z-common-decor);
+    aspect-ratio: var(--aspect-ratio);
+    top: calc(50% + var(--wheel-size-landscape) / 3);
+    left: calc(50% - var(--wheel-size-landscape) / 3);
+    width: min(16vw, vh(24) * var(--aspect-ratio));
+    transform: translate(-55%, -45%);
+
+    @include bg-image('/img/decor/orange-decor');
   }
 }
