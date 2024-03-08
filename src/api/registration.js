@@ -15,6 +15,14 @@ const registerUser = async registrationFormData => {
   return response.data;
 };
 
+const registerUserViaTelephone = async registrationFormData => {
+  const response = await apiInstance.post(
+    '/api/player/register/phone',
+    registrationFormData,
+  );
+  return response.data;
+};
+
 const getUserGeo = async () => {
   const response = await apiInstance.get('/api/player/init');
   return response.data;
@@ -38,6 +46,7 @@ const getLocales = async () => {
 export {
   getRegistrationFields,
   registerUser,
+  registerUserViaTelephone,
   getUserGeo,
   getCountries,
   getCurrencies,

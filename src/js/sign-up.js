@@ -1,11 +1,13 @@
 import handlebars from 'handlebars';
 import queryString from 'query-string';
 import template from '@/partials/sign-up-form.hbs?raw';
-import { registerUser } from '@/api/registration';
+import { registerUser, registerUserViaTelephone } from '@/api/registration';
 import { openModal } from '@/js/modal';
 // import { openLoginModal } from '@/js//login';
 import { globalState } from '@/js/global-state';
 import { setToLS } from '@/js/local-storage';
+import { prepareInputMask } from '@/js/prepare-input-mask';
+import { generateId } from '@/js/generate-id';
 import { AUTH_FIELD, ERROR_MESSAGES } from '@/const';
 
 const modalContentRef = document.querySelector('.js-app-modal-content');
@@ -13,17 +15,27 @@ let formRef = null;
 
 const state = {
   isValid: false,
-  isTelAuthType: false,
+  isTelAuthType: true,
   isVisiblePassword: false,
   isSubmitLoading: false,
 };
 
 const validate = () => {
-  const { email, password, submitBtn, agreeCheck } = formRef;
+  const { tel, email, password, submitBtn, agreeCheck } = formRef;
   if (!email || !password || !agreeCheck || !submitBtn) return;
 
-  const isValid =
-    email.validity.valid && password.validity.valid && agreeCheck.checked;
+  let isValid = false;
+
+  if (state.isTelAuthType) {
+    const onlyNumbersRegex = new RegExp('\\d');
+    isValid =
+      onlyNumbersRegex.test(tel.value[tel.value.length - 1]) &&
+      password.validity.valid &&
+      agreeCheck.checked;
+  } else {
+    isValid =
+      email.validity.valid && password.validity.valid && agreeCheck.checked;
+  }
 
   state.isValid = isValid;
 
@@ -34,29 +46,31 @@ const validate = () => {
   }
 };
 
-// function onChangeAuthType() {
-//   const isTel = this.value === AUTH_FIELD.tel;
+function onChangeAuthType() {
+  const isTel = this.value === AUTH_FIELD.tel;
 
-//   state.isTelAuthType = isTel;
+  state.isTelAuthType = isTel;
 
-//   if (isTel) {
-//     formRef.classList.remove('sign-up-form__form--auth-with-email');
-//     formRef.classList.add('sign-up-form__form--auth-with-tel');
+  if (isTel) {
+    formRef.classList.remove('sign-up-form__form--auth-with-email');
+    formRef.classList.add('sign-up-form__form--auth-with-tel');
 
-//     formRef[AUTH_FIELD.tel].required = true;
-//     formRef[AUTH_FIELD.email].required = false;
-//   } else {
-//     formRef.classList.remove('sign-up-form__form--auth-with-tel');
-//     formRef.classList.add('sign-up-form__form--auth-with-email');
-//     formRef[AUTH_FIELD.tel].required = false;
-//     formRef[AUTH_FIELD.email].required = true;
-//   }
+    formRef[AUTH_FIELD.tel].required = true;
+    formRef[AUTH_FIELD.email].required = false;
+    formRef[AUTH_FIELD.email].value = '';
+  } else {
+    formRef.classList.remove('sign-up-form__form--auth-with-tel');
+    formRef.classList.add('sign-up-form__form--auth-with-email');
+    formRef[AUTH_FIELD.tel].required = false;
+    formRef[AUTH_FIELD.email].required = true;
+    formRef[AUTH_FIELD.tel].value = '';
+  }
 
-//   const errorRef = formRef.querySelector('.js-auth-error');
-//   errorRef.classList.remove('visible');
+  const errorRef = formRef.querySelector('.js-auth-error');
+  errorRef.classList.remove('visible');
 
-//   validate();
-// }
+  validate();
+}
 
 const onInput = () => {
   validate();
@@ -78,23 +92,37 @@ const onSubmit = async event => {
     formRef.fieldset.disabled = true;
     formRef.submitBtn.classList.add('loading');
 
-    const body = {
-      ...(state.isTelAuthType
-        ? { phone: formRef[AUTH_FIELD.tel].value }
-        : { email: formRef[AUTH_FIELD.email].value }),
+    const defaultBody = {
       password: formRef[AUTH_FIELD.password].value,
-      nickname: formRef[AUTH_FIELD.email].value.split('@')[0] ?? '',
+      nickname: generateId(),
       currency: 'BRL',
       country: 'BR',
       affiliateTag: searchString.click_id ?? '',
       bonusCode: searchString.bonus_code ?? '',
     };
 
-    const { data } = await registerUser(body);
+    let responseData = null;
+
+    if (state.isTelAuthType) {
+      const rawPhone = formRef[AUTH_FIELD.tel].value;
+      const body = {
+        ...defaultBody,
+        phone: rawPhone.replace(/[^+\d]/g, ''), // Remove all characters except numbers
+      };
+
+      responseData = (await registerUserViaTelephone(body)).data;
+    } else {
+      const body = {
+        ...defaultBody,
+        email: formRef[AUTH_FIELD.email].value,
+      };
+
+      responseData = (await registerUser(body)).data;
+    }
 
     setToLS('isAlreadyRegistered', true);
 
-    searchString.state = data.autologinToken;
+    searchString.state = responseData?.autologinToken;
     const stringifiedSearch = queryString.stringify(searchString);
 
     window.location.replace(
@@ -149,11 +177,13 @@ export const openSignUpModal = ({ isBlocked } = {}) => {
 
   formRef = document.forms.signUp;
 
-  // [...formRef[AUTH_FIELD.authType]].forEach(radioRef => {
-  //   radioRef.addEventListener('change', onChangeAuthType);
-  // });
+  prepareInputMask();
+
+  [...formRef[AUTH_FIELD.authType]].forEach(radioRef => {
+    radioRef.addEventListener('change', onChangeAuthType);
+  });
   [
-    // formRef[AUTH_FIELD.tel],
+    formRef[AUTH_FIELD.tel],
     formRef[AUTH_FIELD.email],
     formRef[AUTH_FIELD.password],
   ].forEach(ref => {

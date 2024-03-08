@@ -39,12 +39,8 @@
   padding: 0 to-rem(10);
   padding-left: calc(var(--icon-size) + var(--label-padding) + to-rem(5));
   padding-right: var(--label-padding);
-  background-color: var(--col-gordons-green);
+  background-color: var(--col-black-chestnut-oak);
   transition: background-color var(--hover-transition);
-
-  @include respond-above(small) {
-    background-color: var(--col-rich-olive);
-  }
 
   @include hover {
     background-color: var(--auth-type-radio-bg-hover);
