@@ -107,7 +107,7 @@ const onSubmit = async event => {
       const rawPhone = formRef[AUTH_FIELD.tel].value;
       const body = {
         ...defaultBody,
-        phone: rawPhone.replace(/[^+\d]/g, ''), // Remove all characters except numbers
+        phone: rawPhone.replace(/[^\d]/g, ''), // Remove all characters except numbers
       };
 
       responseData = (await registerUserViaTelephone(body)).data;
