@@ -81,6 +81,12 @@
   position: relative;
 }
 
+.sign-up-form__tel-input-wrapper {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: to-rem(16);
+}
+
 .sign-up-form__password-input-btn {
   position: absolute;
   top: 0;
