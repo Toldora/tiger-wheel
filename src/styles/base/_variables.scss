@@ -4,25 +4,7 @@
 :root,
 ::before,
 ::after {
-  --vh: 1vh;
-
   // Primary colors
-  --col-total-white: #{$col-total-white};
-  --col-total-white-rgb: #{$col-total-white-rgb};
-  --col-total-black: #{$col-total-black};
-  --col-total-black-rgb: #{$col-total-black-rgb};
-
-  --col-tibetan-yellow: #{$col-tibetan-yellow};
-  --col-tibetan-yellow-rgb: #{$col-tibetan-yellow-rgb};
-  --col-nuclear-fallout: #{$col-nuclear-fallout};
-  --col-gordons-green: #{$col-gordons-green};
-  --col-rich-olive: #{$col-rich-olive};
-  --col-vermilion-cinnabar: #{$col-vermilion-cinnabar};
-  --col-radiant-silver: #{$col-radiant-silver};
-  --col-bilberry: #{$col-bilberry};
-  --col-island-palm: #{$col-island-palm};
-  --col-dark-tone-ink: #{$col-dark-tone-ink};
-  --col-dark-tone-ink-rgb: #{$col-dark-tone-ink-rgb};
   --col-black-chestnut-oak: #{$col-black-chestnut-oak};
 
   // Z-indexes
@@ -52,18 +34,6 @@
     --p-size: #{to-rem(18)};
   }
 
-  // Transitions
-  --fast-transition-duration: 0.2s;
-  --medium-transition-duration: 0.3s;
-  --slow-transition-duration: 0.4s;
-  --hover-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  --slide-transition-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
-  --fade-transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-  --hover-transition: var(--fast-transition-duration)
-    var(--hover-transition-timing-function);
-  --slide-transition: var(--medium-transition-duration)
-    var(--slide-transition-timing-function);
-
   // Base
   --container-max-width: 100%;
   --container-side-padding: #{to-rem(20)};
@@ -83,15 +53,15 @@
     --container-side-padding: #{to-rem(50)};
   }
 
-  // Common
-  --scrollbar-color: var(--primary-text-color);
-
   // App overlay
   --app-overlay-bg: rgba(var(--col-dark-tone-ink-rgb), 45%);
 
-  // Auth type radio
-  --auth-type-radio-bg-hover: rgba(var(--col-total-white-rgb), 15%);
-  --auth-type-radio-bg-checked: rgba(var(--col-total-white-rgb), 35%);
+  // Sign up form
+  --sign-up-form-input-bg: var(--col-black-chestnut-oak);
+
+  @include respond-above(small) {
+    --sign-up-form-input-bg: var(--col-black-chestnut-oak);
+  }
 
   // Wheel
   @media (orientation: portrait) {

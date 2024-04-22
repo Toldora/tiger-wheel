@@ -1,16 +1,13 @@
-@import './base/reset';
+@import 'node_modules/mayanbet-sdk/dist/style.css';
+
 @import './base/variables';
-@import './base/helpers';
 @import './base/app';
 
 // Components
-@import './components/scrollbar';
-@import './components/svg-icon';
 @import './components/main-content';
 @import './components/app-button';
 @import './components/app-modal';
-@import './components/auth-type-radio';
-@import './components/sign-up-form';
+@import './components/sign-up-bonuses';
 
 // @import './components/login-form';
 @import './components/wheel';

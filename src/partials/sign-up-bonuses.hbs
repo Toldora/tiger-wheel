@@ -1,0 +1,56 @@
+{{#isGreaterOrEqual wheelStage 2}}
+  <div class='sign-up-bonuses__bonus-text-row'>
+    <p>Você ganhou um bônus de
+      <span class='sign-up-bonuses__accent-text'>R$ 4000</span>
+    </p>
+    {{#isGreaterOrEqual wheelStage 3}}
+      <p>e
+        <span class='sign-up-bonuses__accent-text'>250 Giros Grátis</span></p>
+    {{/isGreaterOrEqual}}
+  </div>
+{{/isGreaterOrEqual}}
+
+{{#isGreaterOrEqual wheelStage 2}}
+  <div class='sign-up-bonuses__bonus-img-row'>
+    <picture class='sign-up-bonuses__bonus-img'>
+      <source
+        type='image/webp'
+        srcset='/img/bonus-1.webp 80w, /img/bonus-1@2x.webp 160w'
+        sizes='80px'
+      />
+      <source
+        type='image/png'
+        srcset='/img/bonus-1.png 80w, /img/bonus-1@2x.png 160w'
+        sizes='80px'
+      />
+      <img
+        src='/img/bonus-1.png'
+        width='80'
+        height='80'
+        alt=''
+        loading='lazy'
+      />
+    </picture>
+    {{#isGreaterOrEqual wheelStage 3}}
+      <picture class='sign-up-bonuses__bonus-img'>
+        <source
+          type='image/webp'
+          srcset='/img/bonus-2.webp 80w, /img/bonus-2@2x.webp 160w'
+          sizes='80px'
+        />
+        <source
+          type='image/png'
+          srcset='/img/bonus-2.png 80w, /img/bonus-2@2x.png 160w'
+          sizes='80px'
+        />
+        <img
+          src='/img/bonus-2.png'
+          width='80'
+          height='80'
+          alt=''
+          loading='lazy'
+        />
+      </picture>
+    {{/isGreaterOrEqual}}
+  </div>
+{{/isGreaterOrEqual}}

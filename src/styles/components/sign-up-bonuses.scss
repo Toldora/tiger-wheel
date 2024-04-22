@@ -1,0 +1,29 @@
+.sign-up-bonuses__bonus-text-row {
+  margin-top: to-rem(5);
+  margin-bottom: to-rem(20);
+  text-align: center;
+
+  p {
+    font-size: to-rem(18);
+    font-weight: 500;
+  }
+}
+
+.sign-up-bonuses__accent-text {
+  color: var(--sign-up-form-accent-text-color);
+}
+
+.sign-up-bonuses__bonus-img-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign-up-bonuses__bonus-img {
+  height: to-rem(80);
+  width: to-rem(80);
+
+  &:not(:last-child) {
+    margin-right: to-rem(30);
+  }
+}
