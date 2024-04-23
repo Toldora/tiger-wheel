@@ -3154,10 +3154,10 @@ mathml-tag-names@^2.0.0, mathml-tag-names@^2.1.3:
   resolved "https://registry.yarnpkg.com/mathml-tag-names/-/mathml-tag-names-2.1.3.tgz#4ddadd67308e780cf16a47685878ee27b736a0a3"
   integrity sha512-APMBEanjybaPzUrfqU0IMU5I0AswKMH7k8OTLs0vvV4KZpExkTkY87nR/zpbuTPj+gARop7aGUbl11pnDfW6xg==
 
-mayanbet-sdk@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/mayanbet-sdk/-/mayanbet-sdk-1.2.2.tgz#c3878ef4d181f8362e92d280abfe08f902229e30"
-  integrity sha512-N3LOC6DNShL8tPWGjD37th7t3YzzRNOL40GOW41Dtf27PSoUfkUu8aLuuY0UiX6XHmsYuyHk5itHc5ttfT3zzg==
+mayanbet-sdk@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/mayanbet-sdk/-/mayanbet-sdk-1.2.5.tgz#bd38c667372fedbe7f57b7a289c49b26aad3e51c"
+  integrity sha512-cAJHXRtVGxCb4qm8+OyGqix9SWYnhedXtBteY+/OoDiYhozTrU+0wBxtdLieH0aPFuv7NmrGyE+WHWmv3/DZCg==
   dependencies:
     axios "^1.6.8"
     handlebars "^4.7.8"
