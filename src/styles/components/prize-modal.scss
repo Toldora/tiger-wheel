@@ -1,0 +1,30 @@
+.prize-modal {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.prize-modal__title {
+  margin-bottom: to-rem(12);
+  font-size: to-rem(18);
+}
+
+.prize-modal__text {
+  margin-bottom: to-rem(12);
+  font-size: to-rem(24);
+}
+
+.prize-modal__download-link {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: to-rem(12);
+
+  @include respond-above(medium) {
+    &.prize-modal__download-link {
+      font-size: to-rem(14);
+    }
+  }
+}

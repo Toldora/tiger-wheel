@@ -12,9 +12,9 @@
   opacity: 0;
   visibility: hidden;
 
-  @include respond-above(small) {
-    backdrop-filter: blur(to-rem(4));
-  }
+  // @include respond-above(small) {
+  //   backdrop-filter: blur(to-rem(4));
+  // }
 
   &--is-visible {
     opacity: 1;
@@ -44,13 +44,13 @@
   overflow-y: auto;
   overscroll-behavior: none;
 
-  @include respond-above(small) {
-    max-width: to-rem(400);
-    height: auto;
-    max-height: vh(95);
-    border-radius: to-rem(16);
-    filter: drop-shadow(0 0 to-rem(12) rgba(var(--col-total-black-rgb), 24%));
-  }
+  // @include respond-above(small) {
+  max-width: to-rem(400);
+  height: auto;
+  max-height: vh(95);
+  border-radius: to-rem(16);
+  filter: drop-shadow(0 0 to-rem(12) rgba(var(--col-total-black-rgb), 24%));
+  // }
 }
 
 .app-modal__close-btn {

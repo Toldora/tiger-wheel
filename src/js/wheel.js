@@ -1,6 +1,6 @@
+import { setToLS } from 'mayanbet-sdk';
 import { globalState } from '@/js/global-state';
-import { setToLS } from '@/js/local-storage';
-import { openSignUpModal } from '@/js/sign-up';
+import { openPrizeModal } from '@/js/prize-modal';
 
 const wheelRef = document.querySelector('.js-wheel');
 const spinWheelBtnRef = document.querySelector('.js-spin-wheel-btn');
@@ -56,7 +56,7 @@ const onClickWheel = () => {
         setToLS('isLastStage', globalState.isLastStage);
 
         setTimeout(() => {
-          openSignUpModal({ isBlocked: true });
+          openPrizeModal({ isBlocked: true });
         }, 500);
 
         break;
