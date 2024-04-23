@@ -16,6 +16,8 @@ export const openSignUpModal = ({ isBlocked } = {}) => {
   const markup = compileSignUpFormMarkup({
     bonusesMarkup,
     title: globalState.wheelStage === 1 ? 'Junte-se a nós' : 'Parabéns',
+    submitText:
+      globalState.wheelStage === 1 ? 'Inscrever-se' : 'Receba seu bônus',
   });
 
   modalContentRef.innerHTML = '';
