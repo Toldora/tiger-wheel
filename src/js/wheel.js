@@ -1,6 +1,6 @@
 import { setToLS } from 'mayanbet-sdk';
 import { globalState } from '@/js/global-state';
-import { openSignUpModal } from '@/js/sign-up';
+import { openSignUpModal } from '@/js/sign-up-form';
 
 const wheelRef = document.querySelector('.js-wheel');
 const spinWheelBtnRef = document.querySelector('.js-spin-wheel-btn');

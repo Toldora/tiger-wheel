@@ -1,0 +1,19 @@
+.verification-form__otp-inputs-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(to-rem(64), to-rem(75)));
+  grid-auto-rows: to-rem(94);
+  gap: to-rem(12);
+  justify-content: center;
+}
+
+.verification-form__otp-input {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 34%;
+  border-radius: to-rem(12);
+  background-color: var(--sign-up-form-input-bg);
+  font-size: to-rem(40);
+  border: none;
+  color: inherit;
+}

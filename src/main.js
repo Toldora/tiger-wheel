@@ -8,7 +8,7 @@ import '@/plugins';
 import '@/js/global-state';
 import '@/js/modal';
 import { setWheelLastStage } from '@/js/wheel';
-import { openSignUpModal } from '@/js/sign-up';
+import { openSignUpModal } from '@/js/sign-up-form';
 import '@/js/terms-and-privacy';
 import useViewportSizes from '@/js/use-viewport-sizes';
 

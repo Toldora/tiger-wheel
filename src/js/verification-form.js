@@ -1,60 +1,60 @@
 import handlebars from 'handlebars';
 import queryString from 'query-string';
 import {
-  AUTH_FIELD,
   ERROR_MESSAGES_EN,
   ERROR_MESSAGES_PT,
   generateId,
   generatePassword,
   getFromLS,
-  prepareInputMask,
   registerUserViaTelephone,
   sendMessage,
   setToLS,
-  validatePhone,
 } from 'mayanbet-sdk';
-import signUpFormTemplate from '@/partials/sign-up-form.hbs?raw';
-import signUpBonusesTemplate from '@/partials/sign-up-bonuses.hbs?raw';
-import firstStepTemplate from '@/partials/sign-up-first-step.html?raw';
-import otpStepTemplate from '@/partials/sign-up-otp-step.html?raw';
-import { openModal } from '@/js/modal';
+import verificationFormTemplate from '@/partials/verification-form.hbs?raw';
 import { globalState } from '@/js/global-state';
 
 const modalContentRef = document.querySelector('.js-app-modal-content');
 const onlyNumbersRegex = new RegExp('\\d');
 
-const STEPS = {
-  first: 'first',
-  otp: 'otp',
-};
-
-export class SignUpForm {
+export class VerificationForm {
   formRef = null;
   isValid = false;
-  currentStep = STEPS.first;
   isSubmitLoading = false;
   onSubmitFunc = null;
   submitCallback = null;
 
-  constructor({ formRef, submitCallback = null }) {
+  inputRefs = [];
+  _arrayValue = ['', '', '', ''];
+
+  constructor({ formRef, submitCallback = null, phone }) {
     this.formRef = formRef;
     this.submitCallback = submitCallback;
 
-    this.updateListeners(e => this.sendOTP.bind(this)(e));
+    this.updateListeners(e => this.registerUser.bind(this)(e, phone));
+  }
+
+  get arrayValue() {
+    return this._arrayValue;
+  }
+
+  set arrayValue(newArrayValue) {
+    newArrayValue.length = 4;
+    this._arrayValue = newArrayValue;
+
+    newArrayValue.forEach((value, index) => {
+      const input = this.inputRefs[index];
+      if (input) {
+        input.value = value;
+      }
+    });
   }
 
   validate() {
-    const { tel, otp, submitBtn, agreeCheck } = this.formRef;
+    const { submitBtn } = this.formRef;
 
-    let isValid = false;
-
-    if (this.currentStep === STEPS.first) {
-      isValid =
-        onlyNumbersRegex.test(tel.value[tel.value.length - 1]) &&
-        agreeCheck.checked;
-    } else {
-      isValid = onlyNumbersRegex.test(otp.value[otp.value.length - 1]);
-    }
+    const isValid = this.inputRefs.every(inputRef =>
+      onlyNumbersRegex.test(inputRef.value),
+    );
 
     this.isValid = isValid;
 
@@ -65,34 +65,14 @@ export class SignUpForm {
     }
   }
 
-  onInput = () => {
-    this.validate();
-  };
-
-  onChangeCheckbox = () => {
-    this.validate();
-  };
-
   updateListeners = newSubmitFunc => {
-    prepareInputMask(this.formRef);
+    this.inputRefs = [...this.formRef.otp];
 
-    [...this.formRef.elements].forEach(element => {
-      switch (element.type) {
-        case 'email':
-        case 'tel':
-        case 'text':
-        case 'password':
-        case 'number':
-          element.addEventListener('input', this.onInput.bind(this));
-          break;
-
-        case 'checkbox':
-          element.addEventListener('change', this.onChangeCheckbox.bind(this));
-          break;
-
-        default:
-          break;
-      }
+    this.inputRefs.forEach((ref, index) => {
+      ref.addEventListener('input', e => this.onInput.bind(this)(e, index));
+      ref.addEventListener('keyup', e => this.onKeyUp.bind(this)(e, index));
+      ref.addEventListener('keydown', this.onKeyDown.bind(this));
+      ref.addEventListener('paste', e => this.onPaste.bind(this)(e));
     });
 
     if (this.onSubmitFunc) {
@@ -153,52 +133,67 @@ export class SignUpForm {
     errorRef.classList.add('visible');
   };
 
-  sendOTP = async event => {
-    event.preventDefault();
+  onPaste = e => {
+    e.preventDefault();
+    const paste = e.clipboardData.getData('text').split('');
+    this.arrayValue = paste;
 
-    try {
-      if (!this.isValid || this.isSubmitLoading) return;
+    this.validate();
+  };
 
-      this.startSubmit();
-
-      const rawPhone = this.formRef[AUTH_FIELD.tel].value;
-      const phone = `55${rawPhone}`;
-
-      // const { valid } = await validatePhone(phone);
-
-      // if (!valid) {
-      //   throw new Error(ERROR_MESSAGES_PT.invalidPhone);
-      // }
-      const otp = generatePassword(4);
-      setToLS('otp', otp);
-
-      // const smsData = {
-      //   from: '551151181700',
-      //   to: `+${phone}`,
-      //   message_body: {
-      //     text: `Código de registro Mayan.Bet: ${otp}`,
-      //     media: [null],
-      //   },
-      // };
-
-      // await sendMessage(smsData);
-
-      const otpStepMarkup = handlebars.compile(otpStepTemplate)();
-      const stepWrapperRef = this.formRef.querySelector(
-        '.js-sign-up-current-step-wrapper',
-      );
-      stepWrapperRef.innerHTML = '';
-      stepWrapperRef.insertAdjacentHTML('beforeend', otpStepMarkup);
-
-      this.currentStep = STEPS.otp;
-      this.validate();
-
-      this.updateListeners(e => this.registerUser.bind(this)(e, phone));
-    } catch (error) {
-      this.handleError(error);
-    } finally {
-      this.finishSubmit();
+  onKeyDown = e => {
+    const keyCode = parseInt(e.key);
+    if (
+      e.key !== 'Backspace' &&
+      e.key !== 'Delete' &&
+      e.key !== 'Enter' &&
+      e.key !== 'Tab' &&
+      !(e.metaKey && e.key === 'v') &&
+      !(keyCode >= 0 && keyCode <= 9)
+    ) {
+      e.preventDefault();
     }
+  };
+
+  onInput = (e, index) => {
+    const { value } = e.target;
+    const input = value[value.length - 1] ?? '';
+
+    // if (input.length > 1) {
+    //   e.preventDefault();
+    //   this.arrayValue = [...this.arrayValue];
+
+    //   if (index < this.arrayValue.length - 1) {
+    //     this.inputRefs[index + 1]?.focus();
+    //   }
+
+    //   return false;
+    // }
+
+    if (!isNaN(input)) {
+      const newArrayValue = [...this.arrayValue];
+      newArrayValue[index] = input;
+
+      this.arrayValue = newArrayValue;
+
+      if (input !== '' && index < this.arrayValue.length - 1) {
+        this.inputRefs[index + 1]?.focus();
+      }
+    }
+
+    this.validate();
+  };
+
+  onKeyUp = (e, index) => {
+    if (e.key === 'Backspace' || e.key === 'Delete') {
+      this.arrayValue[index] = '';
+
+      if (index > 0) {
+        this.inputRefs[index - 1]?.focus();
+      }
+    }
+
+    this.validate();
   };
 
   registerUser = async (event, phone) => {
@@ -209,7 +204,7 @@ export class SignUpForm {
 
       this.startSubmit();
 
-      if (this.formRef.otp.value !== getFromLS('otp')) {
+      if (this.arrayValue.join('') !== getFromLS('otp')) {
         throw new Error('Senha incorreta! Por favor, tente novamente!');
       }
 
@@ -257,33 +252,17 @@ export class SignUpForm {
   };
 }
 
-export const openSignUpModal = ({ isBlocked } = {}) => {
-  const bonusesMarkup = handlebars.compile(signUpBonusesTemplate)({
-    wheelStage: globalState.wheelStage,
-  });
-
-  const formMarkup = handlebars.compile(signUpFormTemplate)({
-    bonusesMarkup,
-    title: globalState.wheelStage === 1 ? 'Junte-se a nós' : 'Parabéns',
-    submitText:
-      globalState.wheelStage === 1 ? 'Inscrever-se' : 'Receba seu bônus',
-  });
+export const renderVerificationForm = phone => {
+  const formMarkup = handlebars.compile(verificationFormTemplate)();
 
   modalContentRef.innerHTML = '';
   modalContentRef.insertAdjacentHTML('beforeend', formMarkup);
 
-  const firstStepMarkup = handlebars.compile(firstStepTemplate)();
-  const stepWrapperRef = modalContentRef.querySelector(
-    '.js-sign-up-current-step-wrapper',
-  );
-  stepWrapperRef.insertAdjacentHTML('beforeend', firstStepMarkup);
-
-  new SignUpForm({
-    formRef: document.forms.signUp,
+  new VerificationForm({
+    formRef: document.forms.verification,
     submitCallback: async () => {
       setToLS('isAlreadyRegistered', true);
     },
+    phone,
   });
-
-  openModal({ isBlocked });
 };

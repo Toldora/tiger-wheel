@@ -1,0 +1,73 @@
+<form
+  class='verificatio-form sign-up-form__form'
+  name={{#if formName}}'{{formName}}'{{else}}'verification'{{/if}}
+>
+  <fieldset class='sign-up-form__form-fieldset' name='fieldset'>
+    <div class="verification-form__otp-inputs-wrapper">
+      <input
+        class="verification-form__otp-input"
+        name="otp"
+        required
+        type="tel"
+        autocomplete="one-time-code"
+        placeholder=" "
+        data-slots=" "
+      />
+      <input
+        class="verification-form__otp-input"
+        name="otp"
+        required
+        type="tel"
+        autocomplete="off"
+        placeholder=" "
+        data-slots=" "
+      />
+      <input
+        class="verification-form__otp-input"
+        name="otp"
+        required
+        type="tel"
+        autocomplete="off"
+        placeholder=" "
+        data-slots=" "
+      />
+      <input
+        class="verification-form__otp-input"
+        name="otp"
+        required
+        type="tel"
+        autocomplete="off"
+        placeholder=" "
+        data-slots=" "
+      />
+    </div>
+    <div class="sign-up-form__auth-error js-auth-error"></div>
+
+    <div class='sign-up-form__divider'></div>
+    <button
+      class='app-button app-button--disabled sign-up-form__submit-btn js-submit-btn'
+      name='submitBtn'
+      type='submit'
+      aria-label='Envie novamente'
+    >
+      <div class='sign-up-form__submit-loader'>
+        {{> svg-icon
+          class='sign-up-form__submit-loader-icon sign-up-form__submit-loader-icon--first'
+          width='24'
+          height='24'
+          name='loader-part-1'
+        }}
+        {{> svg-icon
+          class='sign-up-form__submit-loader-icon sign-up-form__submit-loader-icon--second'
+          width='24'
+          height='24'
+          name='loader-part-2'
+        }}
+        <span>Carregando</span>
+      </div>
+      <div class='sign-up-form__submit-btn-content'>
+        Envie novamente
+      </div>
+    </button>
+  </fieldset>
+</form>

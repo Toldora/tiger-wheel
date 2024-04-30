@@ -1,6 +1,6 @@
 import handlebars from 'handlebars';
 import { openModal } from '@/js/modal';
-import { openSignUpModal } from '@/js/sign-up';
+import { openSignUpModal } from '@/js/sign-up-form';
 import template from '@/partials/login-form.html?raw';
 import { AUTH_FIELD } from '@/const';
 
