@@ -4,18 +4,18 @@
 >
   <fieldset class='sign-up-form__form-fieldset' name='fieldset'>
     <button
-      class="verification-form__back-btn js-back-to-sign-up-btn"
-      name="backBtn"
-      type="button"
-      aria-label="Voltar para se inscrever"
+      class='verification-form__back-btn js-back-to-sign-up-btn'
+      name='backBtn'
+      type='button'
+      aria-label='Voltar para se inscrever'
     >
       {{> svg-icon width="20" height="20" name='chevron-left' }}
     </button>
     <a
-      class="verification-form__logo"
-      href="https://mayan.bet/"
-      target="_blank"
-      rel="nofollow noopener noreferrer"
+      class='verification-form__logo'
+      href='https://mayan.bet/'
+      target='_blank'
+      rel='nofollow noopener noreferrer'
     >
       {{> svg-icon width="114" height="22" name='logo' }}
     </a>
@@ -23,51 +23,67 @@
       <p>O código foi enviado para o número:</p>
       <p class='sign-up-bonuses__accent-text'>{{phone}}</p>
     </div>
-    <label class="verification-form__input-label sign-up-form__input-label" for="otp">
+    <label
+      class='verification-form__input-label sign-up-form__input-label'
+      for='otp'
+    >
       Digite o código do SMS:
     </label>
-    <div class="verification-form__otp-inputs-wrapper">
+    <div class='verification-form__otp-inputs-wrapper'>
       <input
-        class="verification-form__otp-input"
-        id="otp"
-        name="otp"
+        class='verification-form__otp-input'
+        id='otp'
+        name='otp'
         required
-        type="tel"
-        autocomplete="one-time-code"
-        placeholder=" "
-        data-slots=" "
+        type='tel'
+        autocomplete='one-time-code'
+        placeholder=' '
+        data-slots=' '
       />
       <input
-        class="verification-form__otp-input"
-        name="otp"
+        class='verification-form__otp-input'
+        name='otp'
         required
-        type="tel"
-        autocomplete="off"
-        placeholder=" "
-        data-slots=" "
+        type='tel'
+        autocomplete='off'
+        placeholder=' '
+        data-slots=' '
       />
       <input
-        class="verification-form__otp-input"
-        name="otp"
+        class='verification-form__otp-input'
+        name='otp'
         required
-        type="tel"
-        autocomplete="off"
-        placeholder=" "
-        data-slots=" "
+        type='tel'
+        autocomplete='off'
+        placeholder=' '
+        data-slots=' '
       />
       <input
-        class="verification-form__otp-input"
-        name="otp"
+        class='verification-form__otp-input'
+        name='otp'
         required
-        type="tel"
-        autocomplete="off"
-        placeholder=" "
-        data-slots=" "
+        type='tel'
+        autocomplete='off'
+        placeholder=' '
+        data-slots=' '
       />
     </div>
-    <div class="sign-up-form__auth-error js-auth-error"></div>
+    <div class='sign-up-form__auth-error js-auth-error'></div>
 
-    <div class='sign-up-form__divider'></div>
+    <div class='verification-form__divider sign-up-form__divider'></div>
+    <button
+      class='verification-form__resend-otp-btn verification-form__resend-otp-btn--disabled js-resend-otp-btn'
+      name='resendOTP'
+      type='button'
+      aria-label='Reenviar código de verificação'
+    >
+      <span class='verification-form__resend-otp-countdown'>Um novo código pode
+        ser recebido em
+        <span class='js-countdown'>60</span>
+        seg
+      </span>
+      <span class='verification-form__resend-otp-text'>Obter o código novamente</span>
+    </button>
     <button
       class='app-button app-button--disabled sign-up-form__submit-btn js-submit-btn'
       name='submitBtn'

@@ -1,3 +1,5 @@
+import { setToLS } from 'mayanbet-sdk';
+
 class GlobalState {
   _wheelStage = 1;
   _lastOTPSent = null;
@@ -15,11 +17,12 @@ class GlobalState {
   }
 
   get lastOTPSent() {
-    return this.__lastOTPSent;
+    return this._lastOTPSent;
   }
 
   set lastOTPSent(value) {
-    this.__lastOTPSent = value;
+    setToLS('lastOTPSent', value);
+    this._lastOTPSent = value;
   }
 }
 

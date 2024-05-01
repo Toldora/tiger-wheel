@@ -51,7 +51,6 @@
   grid-auto-rows: to-rem(94);
   gap: to-rem(12);
   justify-content: center;
-  margin-bottom: to-rem(40);
 }
 
 .verification-form__otp-input {
@@ -64,4 +63,60 @@
   font-size: to-rem(40);
   border: none;
   color: inherit;
+}
+
+.verification-form__divider {
+  margin-top: to-rem(40);
+}
+
+.verification-form__resend-otp-btn {
+  position: relative;
+  align-self: center;
+  margin-bottom: to-rem(16);
+  color: var(--col-total-white);
+  box-shadow: none;
+  font-size: to-rem(12);
+  line-height: 1.5;
+  font-weight: 500;
+  transition: opacity var(--hover-transition);
+
+  &::after {
+    position: absolute;
+    right: 0;
+    bottom: -#{to-rem(1)};
+    width: 0;
+    height: to-rem(1);
+    background-color: currentColor;
+    content: '';
+    transition: width var(--slide-transition);
+  }
+
+  &--disabled,
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+
+    .verification-form__resend-otp-countdown {
+      display: inline-block;
+    }
+
+    .verification-form__resend-otp-text {
+      display: none;
+    }
+  }
+
+  @include hover {
+    &:not(:disabled):not(.verification-form__resend-otp-btn--disabled) {
+      color: var(--col-total-white);
+
+      &::after {
+        left: 0;
+        width: 100%;
+      }
+    }
+  }
+}
+
+.verification-form__resend-otp-countdown {
+  display: none;
 }

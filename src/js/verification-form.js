@@ -13,9 +13,11 @@ import {
 import verificationFormTemplate from '@/partials/verification-form.hbs?raw';
 import { globalState } from '@/js/global-state';
 import { renderSignUpForm } from '@/js/sign-up-form';
+import { runCountdown } from '@/js/countdown';
 
 const modalContentRef = document.querySelector('.js-app-modal-content');
 const onlyNumbersRegex = new RegExp('\\d');
+const OTP_DELAY_SECONDS = 60;
 
 export class VerificationForm {
   formRef = null;
@@ -23,6 +25,8 @@ export class VerificationForm {
   isSubmitLoading = false;
   onSubmitFunc = null;
   submitCallback = null;
+  countdownInterval = null;
+  userPhone = null;
 
   inputRefs = [];
   _arrayValue = ['', '', '', ''];
@@ -30,9 +34,14 @@ export class VerificationForm {
   constructor({ formRef, submitCallback = null, phone }) {
     this.formRef = formRef;
     this.submitCallback = submitCallback;
+    this.userPhone = phone;
 
-    this.updateListeners(e => this.registerUser.bind(this)(e, phone));
+    this.updateListeners(e => this.onSubmit.bind(this)(e));
     this.inputRefs[0]?.focus();
+
+    this.countdownInterval = runCountdown({
+      ref: this.formRef.resendOTP,
+    });
   }
 
   get arrayValue() {
@@ -83,7 +92,18 @@ export class VerificationForm {
     this.onSubmitFunc = newSubmitFunc;
     this.formRef.addEventListener('submit', this.onSubmitFunc);
 
-    this.formRef.backBtn.addEventListener('click', renderSignUpForm);
+    this.formRef.backBtn.addEventListener('click', () => {
+      if (this.countdownInterval) {
+        clearInterval(this.countdownInterval);
+      }
+      renderSignUpForm();
+    });
+    this.formRef.resendOTP.addEventListener('click', async () => {
+      await sendOTP(this.userPhone);
+      this.countdownInterval = runCountdown({
+        ref: this.formRef.resendOTP,
+      });
+    });
   };
 
   startSubmit = () => {
@@ -200,11 +220,11 @@ export class VerificationForm {
     this.validate();
   };
 
-  registerUser = async (event, phone) => {
+  onSubmit = async event => {
     event.preventDefault();
 
     try {
-      if (!phone || !this.isValid || this.isSubmitLoading) return;
+      if (!this.userPhone || !this.isValid || this.isSubmitLoading) return;
 
       this.startSubmit();
 
@@ -217,7 +237,7 @@ export class VerificationForm {
 
       const body = {
         password,
-        phone,
+        phone: this.userPhone,
         nickname: generateId(),
         currency: 'BRL',
         country: 'BR',
@@ -229,7 +249,7 @@ export class VerificationForm {
 
       const smsData = {
         from: '551151181700',
-        to: `+${phone}`,
+        to: `+${this.userPhone}`,
         message_body: {
           text: `Sua nova senha no Mayan.bet é: ${password}`,
           media: [null],
@@ -271,4 +291,31 @@ export const renderVerificationForm = phone => {
     },
     phone,
   });
+};
+
+export const sendOTP = async phone => {
+  const lastOTPSent = getFromLS('lastOTPSent') ?? globalState.lastOTPSent;
+  const OTPDelayRemaining =
+    lastOTPSent - parseInt(Date.now() / 1000) + OTP_DELAY_SECONDS;
+
+  if (lastOTPSent && OTPDelayRemaining > 0) {
+    throw new Error(
+      `Um novo código pode ser recebido em <span class='js-countdown'>${OTPDelayRemaining}</span> seg`,
+    );
+  }
+
+  const otp = generatePassword(4);
+  setToLS('otp', otp);
+  globalState.lastOTPSent = parseInt(Date.now() / 1000);
+
+  const smsData = {
+    from: '551151181700',
+    to: `+${phone}`,
+    message_body: {
+      text: `Código de registro Mayan.Bet: ${otp}`,
+      media: [null],
+    },
+  };
+
+  await sendMessage(smsData);
 };

@@ -4,17 +4,15 @@ import {
   AUTH_FIELD,
   ERROR_MESSAGES_EN,
   ERROR_MESSAGES_PT,
-  generatePassword,
   prepareInputMask,
-  sendMessage,
-  setToLS,
   validatePhone,
 } from 'mayanbet-sdk';
 import signUpFormTemplate from '@/partials/sign-up-form.hbs?raw';
 import signUpBonusesTemplate from '@/partials/sign-up-bonuses.hbs?raw';
 import { openModal } from '@/js/modal';
 import { globalState } from '@/js/global-state';
-import { renderVerificationForm } from '@/js/verification-form';
+import { renderVerificationForm, sendOTP } from '@/js/verification-form';
+import { runCountdown } from '@/js/countdown';
 
 const modalContentRef = document.querySelector('.js-app-modal-content');
 const onlyNumbersRegex = new RegExp('\\d');
@@ -25,12 +23,13 @@ export class SignUpForm {
   isSubmitLoading = false;
   onSubmitFunc = null;
   submitCallback = null;
+  countdownInterval = null;
 
   constructor({ formRef, submitCallback = null }) {
     this.formRef = formRef;
     this.submitCallback = submitCallback;
 
-    this.updateListeners(e => this.sendOTP.bind(this)(e));
+    this.updateListeners(e => this.onSubmit.bind(this)(e));
   }
 
   validate() {
@@ -136,10 +135,19 @@ export class SignUpForm {
 
     const errorRef = this.formRef.querySelector('.js-auth-error');
     errorRef.innerHTML = translations.join('<br/>');
+    if (translations[0]?.startsWith('Um novo código')) {
+      if (this.countdownInterval) {
+        clearInterval(this.countdownInterval);
+      }
+      this.countdownInterval = runCountdown({
+        ref: errorRef,
+        disabledClass: 'visible',
+      });
+    }
     errorRef.classList.add('visible');
   };
 
-  sendOTP = async event => {
+  onSubmit = async event => {
     event.preventDefault();
 
     try {
@@ -155,21 +163,12 @@ export class SignUpForm {
         throw new Error(ERROR_MESSAGES_PT.invalidPhone);
       }
 
-      const otp = generatePassword(4);
-      setToLS('otp', otp);
+      await sendOTP(phone);
 
-      const smsData = {
-        from: '551151181700',
-        to: `+${phone}`,
-        message_body: {
-          text: `Código de registro Mayan.Bet: ${otp}`,
-          media: [null],
-        },
-      };
-
-      await sendMessage(smsData);
-
-      globalState.lastOTPSent = renderVerificationForm(phone);
+      if (this.countdownInterval) {
+        clearInterval(this.countdownInterval);
+      }
+      renderVerificationForm(phone);
     } catch (error) {
       this.handleError(error);
     } finally {
