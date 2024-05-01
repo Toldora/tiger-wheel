@@ -1,11 +1,35 @@
 <form
-  class='verificatio-form sign-up-form__form'
+  class='verification-form sign-up-form__form'
   name={{#if formName}}'{{formName}}'{{else}}'verification'{{/if}}
 >
   <fieldset class='sign-up-form__form-fieldset' name='fieldset'>
+    <button
+      class="verification-form__back-btn js-back-to-sign-up-btn"
+      name="backBtn"
+      type="button"
+      aria-label="Voltar para se inscrever"
+    >
+      {{> svg-icon width="20" height="20" name='chevron-left' }}
+    </button>
+    <a
+      class="verification-form__logo"
+      href="https://mayan.bet/"
+      target="_blank"
+      rel="nofollow noopener noreferrer"
+    >
+      {{> svg-icon width="114" height="22" name='logo' }}
+    </a>
+    <div class='verification-form__text sign-up-bonuses__bonus-text-row'>
+      <p>O código foi enviado para o número:</p>
+      <p class='sign-up-bonuses__accent-text'>{{phone}}</p>
+    </div>
+    <label class="verification-form__input-label sign-up-form__input-label" for="otp">
+      Digite o código do SMS:
+    </label>
     <div class="verification-form__otp-inputs-wrapper">
       <input
         class="verification-form__otp-input"
+        id="otp"
         name="otp"
         required
         type="tel"

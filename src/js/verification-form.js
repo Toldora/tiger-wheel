@@ -12,6 +12,7 @@ import {
 } from 'mayanbet-sdk';
 import verificationFormTemplate from '@/partials/verification-form.hbs?raw';
 import { globalState } from '@/js/global-state';
+import { renderSignUpForm } from '@/js/sign-up-form';
 
 const modalContentRef = document.querySelector('.js-app-modal-content');
 const onlyNumbersRegex = new RegExp('\\d');
@@ -31,6 +32,7 @@ export class VerificationForm {
     this.submitCallback = submitCallback;
 
     this.updateListeners(e => this.registerUser.bind(this)(e, phone));
+    this.inputRefs[0]?.focus();
   }
 
   get arrayValue() {
@@ -80,6 +82,8 @@ export class VerificationForm {
     }
     this.onSubmitFunc = newSubmitFunc;
     this.formRef.addEventListener('submit', this.onSubmitFunc);
+
+    this.formRef.backBtn.addEventListener('click', renderSignUpForm);
   };
 
   startSubmit = () => {
@@ -253,7 +257,9 @@ export class VerificationForm {
 }
 
 export const renderVerificationForm = phone => {
-  const formMarkup = handlebars.compile(verificationFormTemplate)();
+  const formMarkup = handlebars.compile(verificationFormTemplate)({
+    phone: `**** ***** *${phone.substring(10)}`,
+  });
 
   modalContentRef.innerHTML = '';
   modalContentRef.insertAdjacentHTML('beforeend', formMarkup);

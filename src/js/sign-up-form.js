@@ -169,7 +169,7 @@ export class SignUpForm {
 
       await sendMessage(smsData);
 
-      renderVerificationForm(phone);
+      globalState.lastOTPSent = renderVerificationForm(phone);
     } catch (error) {
       this.handleError(error);
     } finally {

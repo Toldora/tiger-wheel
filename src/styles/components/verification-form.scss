@@ -1,9 +1,57 @@
+.verification-form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-top: to-rem(8);
+}
+
+.verification-form__back-btn {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: to-rem(6);
+  top: 0;
+  left: 0;
+  height: to-rem(32);
+  width: to-rem(32);
+  border-radius: to-rem(8);
+  background-color: var(--sign-up-form-input-bg);
+  color: var(--col-total-white);
+
+  @media all and (hover: hover) {
+    color: var(--col-bilberry);
+    transition: color var(--hover-transition);
+
+    &:hover,
+    &:focus-visible {
+      color: var(--col-total-white);
+    }
+  }
+}
+
+.verification-form__logo {
+  align-self: center;
+  margin-bottom: to-rem(20);
+}
+
+.verification-form__text {
+  margin-top: 0;
+  margin-bottom: to-rem(40);
+}
+
+.verification-form__input-label {
+  margin-bottom: to-rem(8);
+  cursor: pointer;
+}
+
 .verification-form__otp-inputs-wrapper {
   display: grid;
   grid-template-columns: repeat(4, minmax(to-rem(64), to-rem(75)));
   grid-auto-rows: to-rem(94);
   gap: to-rem(12);
   justify-content: center;
+  margin-bottom: to-rem(40);
 }
 
 .verification-form__otp-input {
