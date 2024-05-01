@@ -1,12 +1,6 @@
 import handlebars from 'handlebars';
 import queryString from 'query-string';
-import {
-  AUTH_FIELD,
-  ERROR_MESSAGES_EN,
-  ERROR_MESSAGES_PT,
-  prepareInputMask,
-  validatePhone,
-} from 'mayanbet-sdk';
+import { AUTH_FIELD, ERROR_MESSAGES_EN, ERROR_MESSAGES_PT } from 'mayanbet-sdk';
 import signUpFormTemplate from '@/partials/sign-up-form.hbs?raw';
 import signUpBonusesTemplate from '@/partials/sign-up-bonuses.hbs?raw';
 import { openModal } from '@/js/modal';
@@ -15,7 +9,6 @@ import { renderVerificationForm, sendOTP } from '@/js/verification-form';
 import { runCountdown } from '@/js/countdown';
 
 const modalContentRef = document.querySelector('.js-app-modal-content');
-const onlyNumbersRegex = new RegExp('\\d');
 
 export class SignUpForm {
   formRef = null;
@@ -33,13 +26,10 @@ export class SignUpForm {
   }
 
   validate() {
-    const { tel, submitBtn, agreeCheck } = this.formRef;
+    const { email, password, submitBtn, agreeCheck } = this.formRef;
 
-    let isValid = false;
-
-    isValid =
-      onlyNumbersRegex.test(tel.value[tel.value.length - 1]) &&
-      agreeCheck.checked;
+    const isValid =
+      email.validity.valid && password.validity.valid && agreeCheck.checked;
 
     this.isValid = isValid;
 
@@ -58,9 +48,18 @@ export class SignUpForm {
     this.validate();
   };
 
-  updateListeners = newSubmitFunc => {
-    prepareInputMask(this.formRef);
+  togglePasswordVisibility() {
+    if (this.isVisiblePassword) {
+      this.classList.add('sign-up-form__password-input-btn--pass-hidden');
+      this.previousElementSibling.type = 'password';
+    } else {
+      this.classList.remove('sign-up-form__password-input-btn--pass-hidden');
+      this.previousElementSibling.type = 'text';
+    }
+    this.isVisiblePassword = !this.isVisiblePassword;
+  }
 
+  updateListeners = newSubmitFunc => {
     [...this.formRef.elements].forEach(element => {
       switch (element.type) {
         case 'email':
@@ -85,6 +84,13 @@ export class SignUpForm {
     }
     this.onSubmitFunc = newSubmitFunc;
     this.formRef.addEventListener('submit', this.onSubmitFunc);
+
+    const hidePasswordBtnRefs = this.formRef.querySelectorAll(
+      '.js-password-input-btn',
+    );
+    [...hidePasswordBtnRefs].forEach(ref => {
+      ref.addEventListener('click', this.togglePasswordVisibility);
+    });
   };
 
   startSubmit = () => {
@@ -155,20 +161,15 @@ export class SignUpForm {
 
       this.startSubmit();
 
-      const rawPhone = this.formRef[AUTH_FIELD.tel].value;
-      const phone = `55${rawPhone}`;
+      const email = this.formRef[AUTH_FIELD.email].value;
+      const password = this.formRef[AUTH_FIELD.password].value;
 
-      const { valid } = await validatePhone(phone);
-      if (!valid) {
-        throw new Error(ERROR_MESSAGES_PT.invalidPhone);
-      }
-
-      await sendOTP(phone);
+      await sendOTP(email);
 
       if (this.countdownInterval) {
         clearInterval(this.countdownInterval);
       }
-      renderVerificationForm(phone);
+      renderVerificationForm({ email, password });
     } catch (error) {
       this.handleError(error);
     } finally {

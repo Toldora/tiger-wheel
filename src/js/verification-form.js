@@ -6,14 +6,14 @@ import {
   generateId,
   generatePassword,
   getFromLS,
-  registerUserViaTelephone,
-  sendMessage,
+  registerUser,
   setToLS,
 } from 'mayanbet-sdk';
 import verificationFormTemplate from '@/partials/verification-form.hbs?raw';
 import { globalState } from '@/js/global-state';
 import { renderSignUpForm } from '@/js/sign-up-form';
 import { runCountdown } from '@/js/countdown';
+import { sendTransactionalEmail } from '@/api';
 
 const modalContentRef = document.querySelector('.js-app-modal-content');
 const onlyNumbersRegex = new RegExp('\\d');
@@ -26,15 +26,15 @@ export class VerificationForm {
   onSubmitFunc = null;
   submitCallback = null;
   countdownInterval = null;
-  userPhone = null;
+  userInfo = {};
 
   inputRefs = [];
   _arrayValue = ['', '', '', ''];
 
-  constructor({ formRef, submitCallback = null, phone }) {
+  constructor({ formRef, submitCallback = null, info }) {
     this.formRef = formRef;
     this.submitCallback = submitCallback;
-    this.userPhone = phone;
+    this.userInfo = info;
 
     this.updateListeners(e => this.onSubmit.bind(this)(e));
     this.inputRefs[0]?.focus();
@@ -99,7 +99,7 @@ export class VerificationForm {
       renderSignUpForm();
     });
     this.formRef.resendOTP.addEventListener('click', async () => {
-      await sendOTP(this.userPhone);
+      await sendOTP(this.userInfo.email);
       this.countdownInterval = runCountdown({
         ref: this.formRef.resendOTP,
       });
@@ -224,7 +224,7 @@ export class VerificationForm {
     event.preventDefault();
 
     try {
-      if (!this.userPhone || !this.isValid || this.isSubmitLoading) return;
+      if (!this.isValid || this.isSubmitLoading) return;
 
       this.startSubmit();
 
@@ -233,11 +233,12 @@ export class VerificationForm {
       }
 
       const searchString = queryString.parse(window.location.search);
-      const password = generatePassword();
+
+      const { email, password } = this.userInfo;
 
       const body = {
         password,
-        phone: this.userPhone,
+        email,
         nickname: generateId(),
         currency: 'BRL',
         country: 'BR',
@@ -245,18 +246,7 @@ export class VerificationForm {
         bonusCode: searchString.bonus_code ?? '',
       };
 
-      const { data } = await registerUserViaTelephone(body);
-
-      const smsData = {
-        from: '551151181700',
-        to: `+${this.userPhone}`,
-        message_body: {
-          text: `Sua nova senha no Mayan.bet é: ${password}`,
-          media: [null],
-        },
-      };
-
-      await sendMessage(smsData);
+      const { data } = await registerUser(body);
 
       await this.submitCallback?.();
 
@@ -276,9 +266,9 @@ export class VerificationForm {
   };
 }
 
-export const renderVerificationForm = phone => {
+export const renderVerificationForm = info => {
   const formMarkup = handlebars.compile(verificationFormTemplate)({
-    phone: `**** ***** *${phone.substring(10)}`,
+    email: `**** ***** *${info.email.substring(10)}`,
   });
 
   modalContentRef.innerHTML = '';
@@ -289,11 +279,11 @@ export const renderVerificationForm = phone => {
     submitCallback: async () => {
       setToLS('isAlreadyRegistered', true);
     },
-    phone,
+    info,
   });
 };
 
-export const sendOTP = async phone => {
+export const sendOTP = async email => {
   const lastOTPSent = getFromLS('lastOTPSent') ?? globalState.lastOTPSent;
   const OTPDelayRemaining =
     lastOTPSent - parseInt(Date.now() / 1000) + OTP_DELAY_SECONDS;
@@ -308,14 +298,16 @@ export const sendOTP = async phone => {
   setToLS('otp', otp);
   globalState.lastOTPSent = parseInt(Date.now() / 1000);
 
-  const smsData = {
-    from: '551151181700',
-    to: `+${phone}`,
-    message_body: {
-      text: `Código de registro Mayan.Bet: ${otp}`,
-      media: [null],
+  await sendTransactionalEmail({
+    transactional_message_id: 'registration_code',
+    to: email,
+    from: 'Mayan.bet <email@mayanbet.cloud>',
+    subject: 'Code',
+    message_data: {
+      code: otp,
     },
-  };
-
-  await sendMessage(smsData);
+    identifiers: {
+      email,
+    },
+  });
 };
