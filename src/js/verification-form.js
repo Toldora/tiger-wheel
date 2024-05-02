@@ -134,9 +134,25 @@ export class VerificationForm {
       errorMessages.push([error.message]);
     }
 
-    if (!errorMessages.length) {
-      const searchString = queryString.parse(window.location.search);
+    const searchString = queryString.parse(window.location.search);
 
+    if (
+      errorMessages.some(
+        ([message]) =>
+          message === ERROR_MESSAGES_EN.emailExist ||
+          message === ERROR_MESSAGES_EN.phoneExist,
+      )
+    ) {
+      searchString['wallet'] = 'deposit';
+      const stringifiedSearch = queryString.stringify(searchString);
+
+      window.location.replace(
+        `${import.meta.env.VITE_REDIRECT_URL}/?${stringifiedSearch}`,
+      );
+      return;
+    }
+
+    if (!errorMessages.length) {
       searchString['sign-up'] = true;
       const stringifiedSearch = queryString.stringify(searchString);
 
@@ -268,7 +284,7 @@ export class VerificationForm {
 
 export const renderVerificationForm = info => {
   const formMarkup = handlebars.compile(verificationFormTemplate)({
-    email: `**** ***** *${info.email.substring(10)}`,
+    email: info.email,
   });
 
   modalContentRef.innerHTML = '';
@@ -301,8 +317,6 @@ export const sendOTP = async email => {
   await sendTransactionalEmail({
     transactional_message_id: 'registration_code',
     to: email,
-    from: 'Mayan.bet <email@mayanbet.cloud>',
-    subject: 'Code',
     message_data: {
       code: otp,
     },
