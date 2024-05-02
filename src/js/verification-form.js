@@ -134,9 +134,25 @@ export class VerificationForm {
       errorMessages.push([error.message]);
     }
 
-    if (!errorMessages.length) {
-      const searchString = queryString.parse(window.location.search);
+    const searchString = queryString.parse(window.location.search);
 
+    if (
+      errorMessages.some(
+        ([message]) =>
+          message === ERROR_MESSAGES_EN.emailExist ||
+          message === ERROR_MESSAGES_EN.phoneExist,
+      )
+    ) {
+      searchString['wallet'] = 'deposit';
+      const stringifiedSearch = queryString.stringify(searchString);
+
+      window.location.replace(
+        `${import.meta.env.VITE_REDIRECT_URL}/?${stringifiedSearch}`,
+      );
+      return;
+    }
+
+    if (!errorMessages.length) {
       searchString['sign-up'] = true;
       const stringifiedSearch = queryString.stringify(searchString);
 
@@ -278,7 +294,7 @@ export class VerificationForm {
 
 export const renderVerificationForm = phone => {
   const formMarkup = handlebars.compile(verificationFormTemplate)({
-    phone: `**** ***** *${phone.substring(10)}`,
+    phone: `+${phone}`,
   });
 
   modalContentRef.innerHTML = '';
