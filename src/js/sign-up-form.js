@@ -7,6 +7,7 @@ import { openModal } from '@/js/modal';
 import { globalState } from '@/js/global-state';
 import { renderVerificationForm, sendOTP } from '@/js/verification-form';
 import { runCountdown } from '@/js/countdown';
+import { validateEmail } from '@/api';
 
 const modalContentRef = document.querySelector('.js-app-modal-content');
 
@@ -162,6 +163,15 @@ export class SignUpForm {
       this.startSubmit();
 
       const email = this.formRef[AUTH_FIELD.email].value;
+      // Code plus character for query param
+      const codedEmail = email.replace(/\+/g, '%2B');
+
+      const { isValid } = await validateEmail(codedEmail);
+
+      if (isValid !== 'Yes') {
+        throw new Error(ERROR_MESSAGES_PT.invalidEmail);
+      }
+
       const password = this.formRef[AUTH_FIELD.password].value;
 
       await sendOTP(email);
