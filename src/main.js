@@ -14,10 +14,10 @@ import useViewportSizes from '@/js/use-viewport-sizes';
 
 useViewportSizes();
 
-const isAlreadyRegistered = getFromLS('isAlreadyRegistered');
-if (isAlreadyRegistered) {
-  const searchString = queryString.parse(window.location.search);
+const searchString = queryString.parse(window.location.search);
 
+const isAlreadyRegistered = getFromLS('isAlreadyRegistered');
+if (isAlreadyRegistered && !searchString.debug) {
   searchString['sign-in'] = true;
   const stringifiedSearch = queryString.stringify(searchString);
 
