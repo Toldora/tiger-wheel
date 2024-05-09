@@ -14,6 +14,7 @@ import signUpBonusesTemplate from '@/partials/sign-up-bonuses.hbs?raw';
 import { openModal } from '@/js/modal';
 import { globalState } from '@/js/global-state';
 import { setToLS } from '@/js/local-storage';
+import { validateEmail } from '@/api';
 
 const modalContentRef = document.querySelector('.js-app-modal-content');
 
@@ -91,6 +92,16 @@ export class SignUpForm {
       this.formRef.fieldset.disabled = true;
       this.formRef.submitBtn.classList.add('loading');
 
+      const email = this.formRef[AUTH_FIELD.email].value;
+      // Code plus character for query param
+      const codedEmail = email.replace(/\+/g, '%2B');
+
+      const { isValid } = await validateEmail(codedEmail);
+
+      if (isValid !== 'Yes') {
+        throw new Error(ERROR_MESSAGES_PT.invalidEmail);
+      }
+
       const rawPhone = this.formRef[AUTH_FIELD.tel].value;
       const phone = `55${rawPhone}`;
 
@@ -101,7 +112,7 @@ export class SignUpForm {
       }
 
       const body = {
-        email: this.formRef[AUTH_FIELD.email].value,
+        email,
         password: this.formRef[AUTH_FIELD.password].value,
         phone,
         nickname: generateId(),
