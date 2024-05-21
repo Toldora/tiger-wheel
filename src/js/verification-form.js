@@ -264,7 +264,7 @@ export class VerificationForm {
       const { data } = await registerUserViaTelephone(body);
 
       const smsData = {
-        from: '551151181700',
+        from: 'mayanbet',
         to: `+${this.userPhone}`,
         message_body: {
           text: `Sua nova senha no Mayan.bet é: ${password}`,
@@ -272,7 +272,8 @@ export class VerificationForm {
         },
       };
 
-      await sendMessage(smsData);
+      // Removed await for ignoring errors
+      sendMessage(smsData);
 
       await this.submitCallback?.();
 
@@ -325,7 +326,7 @@ export const sendOTP = async phone => {
   globalState.lastOTPSent = parseInt(Date.now() / 1000);
 
   const smsData = {
-    from: '551151181700',
+    from: 'mayanbet',
     to: `+${phone}`,
     message_body: {
       text: `Código de registro Mayan.Bet: ${otp}`,
