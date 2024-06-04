@@ -1,0 +1,151 @@
+<form
+  class='sign-up-form__form sign-up-form__form--auth-with-email {{#if formClass}}{{formClass}}{{/if}}'
+  name={{#if formName}}'{{formName}}'{{else}}'signUp'{{/if}}
+>
+  <fieldset class='sign-up-form__form-fieldset' name='fieldset'>
+    <h2 class='sign-up-form__title'>
+      {{#if title}}
+        {{title}}
+      {{else}}
+        Junte-se a nós
+      {{/if}}
+    </h2>
+
+    {{{ bonusesMarkup }}}
+
+    {{> auth-type-radio }}
+
+    <div class='sign-up-form__auth-inputs sign-up-form__auth-inputs--email'>
+      <label class='sign-up-form__input-label'>
+        <div class='sign-up-form__text-input-label'>Digite seu endereço de
+          e-mail</div>
+        <input
+          class='sign-up-form__text-input'
+          name='email'
+          required
+          placeholder='seu.email.aqui@gmail.com'
+          type='email'
+          autocomplete='email'
+        />
+      </label>
+    </div>
+    <div class='sign-up-form__auth-inputs sign-up-form__auth-inputs--tel'>
+      <label class='sign-up-form__input-label'>
+        <div class='sign-up-form__text-input-label'>
+          Digite seu número de telefone
+        </div>
+        <div class='sign-up-form__tel-input-wrapper'>
+          <div class='sign-up-form__input-stub'>
+            {{> svg-icon class='sign-up-form__country-img' width="24" height="20" name='brazil-flag' }}
+
+            <span>+55</span>
+          </div>
+          <input
+            class='sign-up-form__text-input'
+            name='tel'
+            type='tel'
+            autocomplete='off'
+            placeholder='           '
+            data-slots=' '
+          />
+        </div>
+      </label>
+    </div>
+    <div class='sign-up-form__auth-error js-auth-error'></div>
+    <div class='sign-up-form__auth-inputs sign-up-form__auth-inputs--email sign-up-form__auth-inputs--tel'>
+      <label class='sign-up-form__input-label'>
+        <div class='sign-up-form__text-input-label'>Crie uma senha</div>
+        <div class='sign-up-form__text-input-wrapper'>
+          <input
+            class='sign-up-form__text-input'
+            name='password'
+            required
+            placeholder='******'
+            type='password'
+            minlength='6'
+            autocomplete='off'
+          />
+          <button
+            class='sign-up-form__password-input-btn sign-up-form__password-input-btn--pass-hidden js-password-input-btn'
+            type='button'
+            aria-label='Clique aqui para mostrar/ocultar senha'
+          >
+            {{> svg-icon
+            class='sign-up-form__password-btn-icon sign-up-form__password-btn-icon--off'
+            width='20'
+            height='20'
+            name='eye-off'
+          }}
+          {{> svg-icon
+            class='sign-up-form__password-btn-icon sign-up-form__password-btn-icon--on'
+            width='20'
+            height='20'
+            name='eye-on'
+          }}
+          </button>
+        </div>
+      </label>
+    </div>
+    <div class='sign-up-form__country-wrapper'>
+      <div>
+        <span>País</span>
+        <div class='sign-up-form__input-stub'>
+          {{> svg-icon class='sign-up-form__country-img' width="24" height="20" name='brazil-flag' }}
+
+          <span>Brasil</span>
+        </div>
+      </div>
+      <div>
+        <span>Moeda</span>
+        <div class='sign-up-form__input-stub'>BRL</div>
+      </div>
+    </div>
+    <label class='sign-up-form__agree-wrapper'>
+      <input
+        class='sign-up-form__check-input js-agree-checkbox'
+        checked
+        type='checkbox'
+        required
+        name='agreeCheck'
+      />
+      <span class='sign-up-form__check-box'></span>
+      <div>
+        Eu concordo com
+        <span class='sign-up-form__accent-text'> termos e condições </span>
+        e
+        <span class='sign-up-form__accent-text'> privacidade </span>
+        da conta
+      </div>
+    </label>
+    <div class='sign-up-form__divider'></div>
+    <button
+      class='app-button app-button--disabled sign-up-form__submit-btn js-submit-btn'
+      name='submitBtn'
+      type='submit'
+      aria-label='Inscrever-se'
+    >
+      <div class='sign-up-form__submit-loader'>
+        {{> svg-icon
+          class='sign-up-form__submit-loader-icon sign-up-form__submit-loader-icon--first'
+          width='24'
+          height='24'
+          name='loader-part-1'
+        }}
+        {{> svg-icon
+          class='sign-up-form__submit-loader-icon sign-up-form__submit-loader-icon--second'
+          width='24'
+          height='24'
+          name='loader-part-2'
+        }}
+        <span>Carregando</span>
+      </div>
+      <div class='sign-up-form__submit-btn-content'>
+        {{#if submitText}}
+          {{submitText}}
+        {{else}}
+          Inscrever-se
+        {{/if}}
+      </div>
+    </button>
+  </fieldset>
+</form>
