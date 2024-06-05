@@ -9,6 +9,7 @@ import {
   registerUser,
   registerUserViaTelephone,
   setToLS,
+  validatePhone,
 } from 'mayanbet-sdk';
 import signUpBonusesTemplate from '@/partials/sign-up-bonuses.hbs?raw';
 import signUpFormTemplate from '@/partials/sign-up-form.hbs?raw';
@@ -147,6 +148,12 @@ export class SignUpForm {
       if (this.isTelAuthType) {
         const rawPhone = this.formRef[AUTH_FIELD.tel].value;
         const phone = `55${rawPhone}`;
+
+        const { valid } = await validatePhone(phone);
+
+        if (!valid) {
+          throw new Error(ERROR_MESSAGES_PT.invalidPhone);
+        }
 
         const body = {
           ...defaultBody,
