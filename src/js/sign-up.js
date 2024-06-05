@@ -22,7 +22,7 @@ const modalContentRef = document.querySelector('.js-app-modal-content');
 export class SignUpForm {
   formRef = null;
   isValid = false;
-  isTelAuthType = false;
+  isTelAuthType = true;
   isVisiblePassword = false;
   isSubmitLoading = false;
   submitCallback = null;

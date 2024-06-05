@@ -1,5 +1,5 @@
 <form
-  class='sign-up-form__form sign-up-form__form--auth-with-email {{#if formClass}}{{formClass}}{{/if}}'
+  class='sign-up-form__form sign-up-form__form--auth-with-tel {{#if formClass}}{{formClass}}{{/if}}'
   name={{#if formName}}'{{formName}}'{{else}}'signUp'{{/if}}
 >
   <fieldset class='sign-up-form__form-fieldset' name='fieldset'>
@@ -22,7 +22,6 @@
         <input
           class='sign-up-form__text-input'
           name='email'
-          required
           placeholder='seu.email.aqui@gmail.com'
           type='email'
           autocomplete='email'
@@ -43,6 +42,7 @@
           <input
             class='sign-up-form__text-input'
             name='tel'
+            required
             type='tel'
             autocomplete='off'
             placeholder='           '
