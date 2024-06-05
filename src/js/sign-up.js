@@ -9,6 +9,7 @@ import {
   registerUser,
   registerUserViaTelephone,
   setToLS,
+  validateEmail,
   validatePhone,
 } from 'mayanbet-sdk';
 import signUpBonusesTemplate from '@/partials/sign-up-bonuses.hbs?raw';
@@ -163,6 +164,14 @@ export class SignUpForm {
         responseData = (await registerUserViaTelephone(body)).data;
       } else {
         const email = this.formRef[AUTH_FIELD.email].value;
+        // // Code plus character for query param
+        const codedEmail = email.replace(/\+/g, '%2B');
+
+        const { status } = await validateEmail(codedEmail);
+
+        if (status !== 'valid') {
+          throw new Error(ERROR_MESSAGES_PT.invalidEmail);
+        }
 
         const body = {
           ...defaultBody,
