@@ -95,23 +95,11 @@ export class SignUpForm {
       this.formRef.submitBtn.classList.add('loading');
 
       const email = this.formRef[AUTH_FIELD.email].value;
-      // // Code plus character for query param
-      const codedEmail = email.replace(/\+/g, '%2B');
-
-      const { status } = await validateEmail(codedEmail);
-
-      if (status !== 'valid') {
-        throw new Error(ERROR_MESSAGES_PT.invalidEmail);
-      }
+      await validateEmail(email);
 
       const rawPhone = this.formRef[AUTH_FIELD.tel].value;
       const phone = `55${rawPhone}`;
-
-      const { valid } = await validatePhone(phone);
-
-      if (!valid) {
-        throw new Error(ERROR_MESSAGES_PT.invalidPhone);
-      }
+      await validatePhone(phone);
 
       const body = {
         email,
