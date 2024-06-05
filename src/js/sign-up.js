@@ -7,7 +7,6 @@ import {
   generateId,
   prepareInputMask,
   registerUser,
-  registerUserViaTelephone,
   setToLS,
   validateEmail,
   validatePhone,
@@ -22,7 +21,6 @@ const modalContentRef = document.querySelector('.js-app-modal-content');
 export class SignUpForm {
   formRef = null;
   isValid = false;
-  isTelAuthType = true;
   isVisiblePassword = false;
   isSubmitLoading = false;
   submitCallback = null;
@@ -33,11 +31,6 @@ export class SignUpForm {
 
     prepareInputMask(this.formRef);
 
-    [...this.formRef[AUTH_FIELD.authType]].forEach(radioRef => {
-      radioRef.addEventListener('change', e =>
-        this.onChangeAuthType.bind(this)(e),
-      );
-    });
     [
       this.formRef[AUTH_FIELD.tel],
       this.formRef[AUTH_FIELD.email],
@@ -65,16 +58,12 @@ export class SignUpForm {
 
     let isValid = false;
 
-    if (this.isTelAuthType) {
-      const onlyNumbersRegex = new RegExp('\\d');
-      isValid =
-        onlyNumbersRegex.test(tel.value[tel.value.length - 1]) &&
-        password.validity.valid &&
-        agreeCheck.checked;
-    } else {
-      isValid =
-        email.validity.valid && password.validity.valid && agreeCheck.checked;
-    }
+    const onlyNumbersRegex = new RegExp('\\d');
+    isValid =
+      email.validity.valid &&
+      onlyNumbersRegex.test(tel.value[tel.value.length - 1]) &&
+      password.validity.valid &&
+      agreeCheck.checked;
 
     this.isValid = isValid;
 
@@ -83,36 +72,6 @@ export class SignUpForm {
     } else {
       submitBtn.classList.add('app-button--disabled');
     }
-  }
-
-  onChangeAuthType(event) {
-    const isTel = event.target.value === AUTH_FIELD.tel;
-
-    this.isTelAuthType = isTel;
-
-    if (isTel) {
-      this.formRef.classList.remove('sign-up-form__form--auth-with-email');
-      this.formRef.classList.add('sign-up-form__form--auth-with-tel');
-
-      this.formRef[AUTH_FIELD.tel].required = true;
-      [this.formRef[AUTH_FIELD.email]].forEach(ref => {
-        ref.required = false;
-        ref.value = '';
-      });
-    } else {
-      this.formRef.classList.remove('sign-up-form__form--auth-with-tel');
-      this.formRef.classList.add('sign-up-form__form--auth-with-email');
-      [this.formRef[AUTH_FIELD.tel]].forEach(ref => {
-        ref.required = false;
-        ref.value = '';
-      });
-      this.formRef[AUTH_FIELD.email].required = true;
-    }
-
-    const errorRef = this.formRef.querySelector('.js-auth-error');
-    errorRef.classList.remove('visible');
-
-    this.validate();
   }
 
   onInput = () => {
@@ -135,7 +94,28 @@ export class SignUpForm {
       this.formRef.fieldset.disabled = true;
       this.formRef.submitBtn.classList.add('loading');
 
-      const defaultBody = {
+      const email = this.formRef[AUTH_FIELD.email].value;
+      // // Code plus character for query param
+      const codedEmail = email.replace(/\+/g, '%2B');
+
+      const { status } = await validateEmail(codedEmail);
+
+      if (status !== 'valid') {
+        throw new Error(ERROR_MESSAGES_PT.invalidEmail);
+      }
+
+      const rawPhone = this.formRef[AUTH_FIELD.tel].value;
+      const phone = `55${rawPhone}`;
+
+      const { valid } = await validatePhone(phone);
+
+      if (!valid) {
+        throw new Error(ERROR_MESSAGES_PT.invalidPhone);
+      }
+
+      const body = {
+        email,
+        phone,
         password: this.formRef[AUTH_FIELD.password].value,
         nickname: generateId(),
         currency: 'BRL',
@@ -144,42 +124,7 @@ export class SignUpForm {
         bonusCode: searchString.bonus_code ?? '',
       };
 
-      let responseData = null;
-
-      if (this.isTelAuthType) {
-        const rawPhone = this.formRef[AUTH_FIELD.tel].value;
-        const phone = `55${rawPhone}`;
-
-        const { valid } = await validatePhone(phone);
-
-        if (!valid) {
-          throw new Error(ERROR_MESSAGES_PT.invalidPhone);
-        }
-
-        const body = {
-          ...defaultBody,
-          phone,
-        };
-
-        responseData = (await registerUserViaTelephone(body)).data;
-      } else {
-        const email = this.formRef[AUTH_FIELD.email].value;
-        // // Code plus character for query param
-        const codedEmail = email.replace(/\+/g, '%2B');
-
-        const { status } = await validateEmail(codedEmail);
-
-        if (status !== 'valid') {
-          throw new Error(ERROR_MESSAGES_PT.invalidEmail);
-        }
-
-        const body = {
-          ...defaultBody,
-          email,
-        };
-
-        responseData = (await registerUser(body)).data;
-      }
+      const responseData = (await registerUser(body)).data;
 
       await this.submitCallback?.();
 
