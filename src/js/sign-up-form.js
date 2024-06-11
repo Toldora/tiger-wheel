@@ -1,13 +1,17 @@
 import handlebars from 'handlebars';
 import queryString from 'query-string';
-import { AUTH_FIELD, ERROR_MESSAGES_EN, ERROR_MESSAGES_PT } from 'mayanbet-sdk';
+import {
+  AUTH_FIELD,
+  ERROR_MESSAGES_EN,
+  ERROR_MESSAGES_PT,
+  validateEmail,
+} from 'mayanbet-sdk';
 import signUpFormTemplate from '@/partials/sign-up-form.hbs?raw';
 import signUpBonusesTemplate from '@/partials/sign-up-bonuses.hbs?raw';
 import { openModal } from '@/js/modal';
 import { globalState } from '@/js/global-state';
 import { renderVerificationForm, sendOTP } from '@/js/verification-form';
 import { runCountdown } from '@/js/countdown';
-// import { validateEmail } from '@/api';
 
 const modalContentRef = document.querySelector('.js-app-modal-content');
 
@@ -163,14 +167,7 @@ export class SignUpForm {
       this.startSubmit();
 
       const email = this.formRef[AUTH_FIELD.email].value;
-      // // Code plus character for query param
-      // const codedEmail = email.replace(/\+/g, '%2B');
-
-      // const { isValid } = await validateEmail(codedEmail);
-
-      // if (isValid !== 'Yes') {
-      //   throw new Error(ERROR_MESSAGES_PT.invalidEmail);
-      // }
+      await validateEmail(email);
 
       const password = this.formRef[AUTH_FIELD.password].value;
 
