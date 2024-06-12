@@ -158,10 +158,7 @@ export class SignUpForm {
       const rawPhone = this.formRef[AUTH_FIELD.tel].value;
       const phone = `55${rawPhone}`;
 
-      const { valid } = await validatePhone(phone);
-      if (!valid) {
-        throw new Error(ERROR_MESSAGES_PT.invalidPhone);
-      }
+      await validatePhone(phone);
 
       await sendOTP(phone);
 

@@ -7,7 +7,7 @@ import {
   generatePassword,
   getFromLS,
   registerUserViaTelephone,
-  sendMessage,
+  sendSms,
   setToLS,
 } from 'mayanbet-sdk';
 import verificationFormTemplate from '@/partials/verification-form.hbs?raw';
@@ -263,17 +263,10 @@ export class VerificationForm {
 
       const { data } = await registerUserViaTelephone(body);
 
-      const smsData = {
-        from: 'mayanbet',
-        to: `+${this.userPhone}`,
-        message_body: {
-          text: `Sua nova senha no Mayan.bet é: ${password}`,
-          media: [null],
-        },
-      };
-
-      // Removed await for ignoring errors
-      sendMessage(smsData);
+      await sendSms({
+        phone: this.userPhone,
+        text: `Sua nova senha no Mayan.bet é: ${password}`,
+      });
 
       await this.submitCallback?.();
 
@@ -325,14 +318,5 @@ export const sendOTP = async phone => {
   setToLS('otp', otp);
   globalState.lastOTPSent = parseInt(Date.now() / 1000);
 
-  const smsData = {
-    from: 'mayanbet',
-    to: `+${phone}`,
-    message_body: {
-      text: `Código de registro Mayan.Bet: ${otp}`,
-      media: [null],
-    },
-  };
-
-  await sendMessage(smsData);
+  await sendSms({ phone, text: `Código de registro Mayan.Bet: ${otp}` });
 };
