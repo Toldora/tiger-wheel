@@ -18,6 +18,7 @@ export const openSignUpModal = ({ isBlocked } = {}) => {
     title: globalState.wheelStage === 1 ? 'Junte-se a nós' : 'Parabéns',
     submitText:
       globalState.wheelStage === 1 ? 'Inscrever-se' : 'Receba seu bônus',
+    isEmailOnFirstPosition: true,
   });
 
   modalContentRef.innerHTML = '';
