@@ -318,5 +318,8 @@ export const sendOTP = async phone => {
   setToLS('otp', otp);
   globalState.lastOTPSent = parseInt(Date.now() / 1000);
 
-  await sendSms({ phone, text: `Código de registro Mayan.Bet: ${otp}` });
+  await sendSms({
+    phone,
+    text: `Código de confirmação na Mayan.Bet: ${otp}. Válido por 5 minutos`,
+  });
 };
