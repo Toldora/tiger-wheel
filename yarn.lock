@@ -3140,10 +3140,10 @@ mathml-tag-names@^2.0.0, mathml-tag-names@^2.1.3:
   resolved "https://registry.yarnpkg.com/mathml-tag-names/-/mathml-tag-names-2.1.3.tgz#4ddadd67308e780cf16a47685878ee27b736a0a3"
   integrity sha512-APMBEanjybaPzUrfqU0IMU5I0AswKMH7k8OTLs0vvV4KZpExkTkY87nR/zpbuTPj+gARop7aGUbl11pnDfW6xg==
 
-mayanbet-sdk@^1.2.29:
-  version "1.2.29"
-  resolved "https://registry.yarnpkg.com/mayanbet-sdk/-/mayanbet-sdk-1.2.29.tgz#f7ee3b492680d4154019a5ef5b986b41ebb78581"
-  integrity sha512-nWeLzfAz+PT//KyIa40HWks0FG6tKMDh8Y5J3mX6Rhmvg2UkDMt/xfmVKslR/ezr9UzVgarPXuiJpEk+vrtqTg==
+mayanbet-sdk@^1.2.31:
+  version "1.2.31"
+  resolved "https://registry.yarnpkg.com/mayanbet-sdk/-/mayanbet-sdk-1.2.31.tgz#7e1b4e0fc1d7c52362223ed6b306be92f5d67458"
+  integrity sha512-H7e63PUOM9G/hxs0oyEtfnxmyJl3jAjGZLk6Lyt/qJboB/pzLdW3VXSi3BCfaX0lKE2zu+00F+cSqY7QbFKpwQ==
 
 mdn-data@2.0.14:
   version "2.0.14"
