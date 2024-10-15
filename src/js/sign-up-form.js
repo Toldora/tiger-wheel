@@ -12,6 +12,7 @@ import { openModal } from '@/js/modal';
 import { globalState } from '@/js/global-state';
 import { renderVerificationForm, sendOTP } from '@/js/verification-form';
 import { runCountdown } from '@/js/countdown';
+import { REDIRECT_PARAMS } from '@/const';
 
 const modalContentRef = document.querySelector('.js-app-modal-content');
 
@@ -130,6 +131,7 @@ export class SignUpForm {
       const searchString = queryString.parse(window.location.search);
 
       searchString['sign-up'] = true;
+      Object.assign(searchString, REDIRECT_PARAMS.params);
       const stringifiedSearch = queryString.stringify(searchString);
 
       window.location.replace(

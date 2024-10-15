@@ -14,6 +14,7 @@ import { globalState } from '@/js/global-state';
 import { renderSignUpForm } from '@/js/sign-up-form';
 import { runCountdown } from '@/js/countdown';
 import { sendTransactionalEmail } from '@/api';
+import { REDIRECT_PARAMS } from '@/const';
 
 const modalContentRef = document.querySelector('.js-app-modal-content');
 const onlyNumbersRegex = new RegExp('\\d');
@@ -144,6 +145,7 @@ export class VerificationForm {
       )
     ) {
       searchString['wallet'] = 'deposit';
+      Object.assign(searchString, REDIRECT_PARAMS.params);
       const stringifiedSearch = queryString.stringify(searchString);
 
       window.location.replace(
@@ -154,6 +156,7 @@ export class VerificationForm {
 
     if (!errorMessages.length) {
       searchString['sign-up'] = true;
+      Object.assign(searchString, REDIRECT_PARAMS.params);
       const stringifiedSearch = queryString.stringify(searchString);
 
       window.location.replace(
@@ -267,12 +270,13 @@ export class VerificationForm {
       await this.submitCallback?.();
 
       searchString.state = data?.autologinToken;
+      Object.assign(searchString, REDIRECT_PARAMS.params);
       const stringifiedSearch = queryString.stringify(searchString);
 
       window.location.replace(
         `${
           import.meta.env.VITE_REDIRECT_URL
-        }/auth/autologin/?${stringifiedSearch}`,
+        }/${REDIRECT_PARAMS.route}?${stringifiedSearch}`,
       );
     } catch (error) {
       this.handleError(error);
