@@ -24,6 +24,7 @@
   @include hover {
     &:not(:disabled):not(.app-button--disabled) {
       background-color: var(--col-total-white);
+      color: var(--col-total-black);
     }
   }
 }
