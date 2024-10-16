@@ -2,17 +2,18 @@ import handlebars from 'handlebars';
 import queryString from 'query-string';
 import {
   AUTH_FIELD,
+  compileSignUpFormMarkup,
   ERROR_MESSAGES_EN,
   ERROR_MESSAGES_PT,
   generateId,
   prepareInputMask,
   registerUser,
-  setToLS,
+  // setToLS,
   validateEmail,
   validatePhone,
 } from 'mayanbet-sdk';
 import signUpBonusesTemplate from '@/partials/sign-up-bonuses.hbs?raw';
-import signUpFormTemplate from '@/partials/sign-up-form.hbs?raw';
+// import signUpFormTemplate from '@/partials/sign-up-form.hbs?raw';
 import { openModal } from '@/js/modal';
 import { globalState } from '@/js/global-state';
 
@@ -202,7 +203,8 @@ export const openSignUpModal = ({ isBlocked } = {}) => {
     wheelStage: globalState.wheelStage,
   });
 
-  const markup = handlebars.compile(signUpFormTemplate)({
+  // const markup = handlebars.compile(signUpFormTemplate)({
+  const markup = compileSignUpFormMarkup({
     bonusesMarkup,
     title: globalState.wheelStage === 1 ? 'Junte-se a nós' : 'Parabéns',
     submitText:
@@ -212,12 +214,12 @@ export const openSignUpModal = ({ isBlocked } = {}) => {
   modalContentRef.innerHTML = '';
   modalContentRef.insertAdjacentHTML('beforeend', markup);
 
-  new SignUpForm({
-    formRef: document.forms.signUp,
-    submitCallback: async () => {
-      setToLS('isAlreadyRegistered', true);
-    },
-  });
+  // new SignUpForm({
+  //   formRef: document.forms.signUp,
+  //   submitCallback: async () => {
+  //     setToLS('isAlreadyRegistered', true);
+  //   },
+  // });
 
   openModal({ isBlocked });
 };
