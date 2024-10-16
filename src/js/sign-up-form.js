@@ -2,11 +2,12 @@ import handlebars from 'handlebars';
 import queryString from 'query-string';
 import {
   AUTH_FIELD,
+  compileSignUpFormMarkup,
   ERROR_MESSAGES_EN,
   ERROR_MESSAGES_PT,
   validateEmail,
 } from 'mayanbet-sdk';
-import signUpFormTemplate from '@/partials/sign-up-form.hbs?raw';
+// import signUpFormTemplate from '@/partials/sign-up-form.hbs?raw';
 import signUpBonusesTemplate from '@/partials/sign-up-bonuses.hbs?raw';
 import { openModal } from '@/js/modal';
 import { globalState } from '@/js/global-state';
@@ -190,19 +191,25 @@ export const renderSignUpForm = () => {
     wheelStage: globalState.wheelStage,
   });
 
-  const formMarkup = handlebars.compile(signUpFormTemplate)({
+  const formMarkup = compileSignUpFormMarkup({
     bonusesMarkup,
     title: globalState.wheelStage === 1 ? 'Junte-se a nós' : 'Parabéns',
     submitText:
       globalState.wheelStage === 1 ? 'Inscrever-se' : 'Receba seu bônus',
   });
+  // const formMarkup = handlebars.compile(signUpFormTemplate)({
+  //   bonusesMarkup,
+  //   title: globalState.wheelStage === 1 ? 'Junte-se a nós' : 'Parabéns',
+  //   submitText:
+  //     globalState.wheelStage === 1 ? 'Inscrever-se' : 'Receba seu bônus',
+  // });
 
   modalContentRef.innerHTML = '';
   modalContentRef.insertAdjacentHTML('beforeend', formMarkup);
 
-  new SignUpForm({
-    formRef: document.forms.signUp,
-  });
+  // new SignUpForm({
+  //   formRef: document.forms.signUp,
+  // });
 };
 
 export const openSignUpModal = ({ isBlocked } = {}) => {
