@@ -5,6 +5,7 @@ import {
   ERROR_MESSAGES_EN,
   ERROR_MESSAGES_PT,
   generateId,
+  loginUser,
   prepareInputMask,
   registerUser,
   registerUserViaTelephone,
@@ -198,14 +199,28 @@ export class SignUpForm {
             message === ERROR_MESSAGES_EN.phoneExist,
         )
       ) {
-        searchString['wallet'] = 'deposit';
-        searchString['sign-in'] = true;
-        const stringifiedSearch = queryString.stringify(searchString);
+        const rawPhone = this.formRef[AUTH_FIELD.tel].value;
+        const phone = `55${rawPhone}`;
+        const login = this.isTelAuthType
+          ? phone
+          : this.formRef[AUTH_FIELD.email].value;
+        const password = this.formRef[AUTH_FIELD.password].value;
+        await loginUser({
+          login,
+          password,
+        })
+          .then(() => {
+            searchString['p'] = 'mb' + window.btoa(password);
+            searchString['l'] = 'ca' + window.btoa(login);
+            const stringifiedSearch = queryString.stringify(searchString);
 
-        window.location.replace(
-          `${import.meta.env.VITE_REDIRECT_URL}/?${stringifiedSearch}`,
-        );
-        return;
+            window.location.replace(
+              `${
+                import.meta.env.VITE_REDIRECT_URL
+              }/auth/with-credentials/?${stringifiedSearch}`,
+            );
+          })
+          .catch(() => {});
       }
 
       if (!errorMessages.length) {
